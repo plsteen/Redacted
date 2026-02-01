@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabaseAdmin";
 import { randomBytes } from "crypto";
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function isUuid(value: string): boolean {
+  return UUID_REGEX.test(value);
+}
+
 function generateAccessCode(): string {
   // Generate a readable 8-character code like "ABCD-1234"
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // Removed confusing chars (0, O, I, 1)
@@ -33,6 +39,30 @@ export async function GET(request: NextRequest) {
   const supabase = getSupabaseAdminClient();
 
   try {
+    interface MysteryLocale {
+      title: string | null;
+      lang: string | null;
+    }
+
+    interface MysteryInfo {
+      code: string | null;
+      mystery_locales?: MysteryLocale[] | null;
+    }
+
+    interface AccessCodeRow {
+      id: string;
+      code: string;
+      mystery_id: string;
+      created_by: string;
+      created_at: string;
+      expires_at: string | null;
+      max_uses: number;
+      used_count: number;
+      is_active: boolean;
+      note: string | null;
+      mysteries?: MysteryInfo | null;
+    }
+
     const { data: codes, error } = await supabase
       .from("access_codes")
       .select(`
@@ -46,15 +76,27 @@ export async function GET(request: NextRequest) {
         used_count,
         is_active,
         note,
-        mysteries (title, slug)
+        mysteries (code, mystery_locales (title, lang))
       `)
       .order("created_at", { ascending: false })
       .limit(100);
 
     if (error) throw error;
 
+    const normalizedCodes = ((codes || []) as AccessCodeRow[]).map((code) => {
+      const locales = code.mysteries?.mystery_locales || [];
+      const english = locales.find((l) => l.lang === "en") || locales[0];
+      const title = english?.title || code.mysteries?.code || "Unknown";
+      return {
+        ...code,
+        mysteries: code.mysteries
+          ? { title, slug: code.mysteries.code || "" }
+          : null,
+      };
+    });
+
     return NextResponse.json({
-      codes: codes || [],
+      codes: normalizedCodes,
     });
   } catch (error) {
     console.error("Failed to fetch access codes:", error);
@@ -109,11 +151,30 @@ export async function POST(request: NextRequest) {
       attempts++;
     }
 
+    let resolvedMysteryId = mysteryId as string;
+
+    if (!isUuid(resolvedMysteryId)) {
+      const { data: mystery, error: mysteryError } = await supabase
+        .from("mysteries")
+        .select("id")
+        .eq("code", resolvedMysteryId)
+        .single();
+
+      if (mysteryError || !mystery) {
+        return NextResponse.json(
+          { error: "Unknown mystery code" },
+          { status: 400 }
+        );
+      }
+
+      resolvedMysteryId = mystery.id as string;
+    }
+
     const { data, error } = await supabase
       .from("access_codes")
       .insert({
         code,
-        mystery_id: mysteryId,
+        mystery_id: resolvedMysteryId,
         created_by: "admin",
         max_uses: maxUses,
         expires_at: expiresAt || null,

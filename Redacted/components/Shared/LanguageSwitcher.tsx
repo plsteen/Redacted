@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { getMessagesForLocale } from "@/lib/i18n";
 import { useLocale } from "@/lib/hooks/useLocale";
@@ -11,7 +10,6 @@ const LANG_ORDER: Array<{ code: "en" | "no"; labelKey: "english" | "norwegian" }
 ];
 
 export function LanguageSwitcher() {
-  const router = useRouter();
   const [isChanging, setIsChanging] = useState(false);
   const currentLocale = useLocale();
   
@@ -24,11 +22,10 @@ export function LanguageSwitcher() {
       // Set cookie
       document.cookie = `locale=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=strict`;
       setTimeout(() => {
-        router.refresh();
-        setIsChanging(false);
+        window.location.reload();
       }, 100);
     },
-    [currentLocale, router],
+    [currentLocale],
   );
 
   return (

@@ -227,7 +227,7 @@ function HomePageContent() {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mysteryId: mystery.slug, locale }),
+        body: JSON.stringify({ mysteryId: mystery.id, userId: user.id, locale }),
       });
       const data = await res.json();
       if (data.url) {
@@ -606,12 +606,17 @@ function HomePageContent() {
                 <div className="p-6">
                   {/* Title + Owned badge */}
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-serif text-xl text-white group-hover:text-[var(--color-gold)] transition">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedMystery(mystery)}
+                      className="text-left font-serif text-xl text-white group-hover:text-[var(--color-gold)] transition"
+                    >
                       {mystery.title}
-                    </h3>
+                    </button>
                     {mystery.isPurchased && (
-                      <span className="px-2 py-0.5 bg-green-600/80 rounded text-xs font-medium shrink-0 ml-2">
-                        ✓
+                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 text-emerald-200 text-[10px] px-2 py-0.5 font-semibold shrink-0 ml-2">
+                        <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-200">✓</span>
+                        <span>{locale === "no" ? "Eid" : "Owned"}</span>
                       </span>
                     )}
                   </div>

@@ -21,7 +21,7 @@ interface AccessCode {
 interface Mystery {
   id: string;
   title: string;
-  slug: string;
+  code: string;
 }
 
 function CodesContent() {
@@ -48,19 +48,19 @@ function CodesContent() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [codesRes, catalogRes] = await Promise.all([
+      const [codesRes, mysteriesRes] = await Promise.all([
         fetch(`/api/admin/codes?auth=${authParam}`),
-        fetch("/api/catalog?locale=en"),
+        fetch(`/api/admin/mysteries?auth=${authParam}`),
       ]);
       
       const codesData = await codesRes.json();
-      const catalogData = await catalogRes.json();
+      const mysteriesData = await mysteriesRes.json();
       
       setCodes(codesData.codes || []);
-      setMysteries(catalogData.mysteries || []);
+      setMysteries(mysteriesData.mysteries || []);
       
-      if (catalogData.mysteries?.length > 0) {
-        setNewCode(prev => ({ ...prev, mysteryId: catalogData.mysteries[0].id }));
+      if (mysteriesData.mysteries?.length > 0) {
+        setNewCode(prev => ({ ...prev, mysteryId: mysteriesData.mysteries[0].id }));
       }
     } catch (err) {
       console.error("Failed to fetch data:", err);

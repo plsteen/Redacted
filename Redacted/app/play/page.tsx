@@ -111,9 +111,63 @@ function PlayPageContent() {
   const [kickedPlayerIds, setKickedPlayerIds] = useState<Set<string>>(new Set());
   const joinRequestSentRef = useRef(false);
   const joinAutoApproveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const lastLoggedTaskIdxRef = useRef<number | null>(null);
+
+  const [userId, setUserId] = useState<string | null>(null);
 
   const sessionCode = searchParams?.get("session") ?? searchParams?.get("code") ?? "DEMO";
   const isHost = (searchParams?.get("mode") ?? "host") === "host";
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const supabase = getSupabaseBrowserClient();
+        const { data } = await supabase.auth.getUser();
+        setUserId(data.user?.id ?? null);
+      } catch {
+        setUserId(null);
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
+  const logActivity = useCallback(
+    async (action: string, metadata: Record<string, unknown> = {}) => {
+      try {
+        const pageUrl = `${window.location.pathname}${window.location.search}`;
+        await fetch("/api/admin/logs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            sessionId: sessionCode,
+            action,
+            pageUrl,
+            metadata: {
+              caseId: (caseData as { id?: string })?.id || "silent-harbour",
+              ...metadata,
+            },
+            screenWidth: window.innerWidth,
+            screenHeight: window.innerHeight,
+          }),
+        });
+      } catch {
+        // Ignore logging errors
+      }
+    },
+    [caseData, sessionCode, userId],
+  );
+
+  useEffect(() => {
+    logActivity("page_view", { step: "play" });
+  }, [logActivity]);
+
+  useEffect(() => {
+    if (lastLoggedTaskIdxRef.current === currentIdx) return;
+    lastLoggedTaskIdxRef.current = currentIdx;
+    logActivity("task_progress", { taskIndex: currentIdx, step: `Task ${currentIdx + 1}` });
+  }, [currentIdx, logActivity]);
 
   useEffect(() => {
     if (isHost) {
@@ -688,15 +742,6 @@ function PlayPageContent() {
               className="px-3 py-1.5 rounded border border-white/10 text-white/70 hover:text-white hover:border-white/30 transition"
             >
               {locale === "no" ? "← Hjem" : "← Home"}
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                router.push(isHost ? "/?step=case&mode=host" : "/?step=mode")
-              }
-              className="px-3 py-1.5 rounded border border-white/10 text-white/70 hover:text-white hover:border-white/30 transition"
-            >
-              {locale === "no" ? "← Cases" : "← Cases"}
             </button>
             <LanguageSwitcher />
           </div>
