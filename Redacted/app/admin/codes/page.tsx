@@ -104,7 +104,7 @@ function CodesContent() {
   }
 
   async function handleDeactivate(codeId: string) {
-    if (!confirm("Deaktivere denne koden?")) return;
+    if (!confirm("Deactivate this code?")) return;
     
     try {
       const res = await fetch(`/api/admin/codes?auth=${authParam}&id=${codeId}`, {
@@ -123,7 +123,7 @@ function CodesContent() {
 
   function copyToClipboard(code: string) {
     navigator.clipboard.writeText(code);
-    alert(`Kopiert: ${code}`);
+    alert(`Copied: ${code}`);
   }
 
   if (authParam !== "redacted2026") {
@@ -131,38 +131,38 @@ function CodesContent() {
   }
 
   return (
-    <AdminLayout title="Tilgangskoder">
+    <AdminLayout title="Access Codes">
       {/* Header Actions */}
       <div className="flex justify-end mb-6">
         <button
           onClick={() => setShowCreateModal(true)}
           className="px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-lg font-semibold"
         >
-          + Generer ny kode
+          + Generate New Code
         </button>
       </div>
 
       {/* Loading */}
       {loading ? (
         <div className="text-center py-12">
-          <p className="text-stone-400">Laster...</p>
+          <p className="text-stone-400">Loading...</p>
         </div>
       ) : (
         <>
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="bg-stone-800 rounded-lg p-4">
-                <p className="text-stone-400 text-sm">Totalt generert</p>
+                <p className="text-stone-400 text-sm">Total Generated</p>
                 <p className="text-2xl font-bold">{codes.length}</p>
               </div>
               <div className="bg-stone-800 rounded-lg p-4">
-                <p className="text-stone-400 text-sm">Aktive koder</p>
+                <p className="text-stone-400 text-sm">Active Codes</p>
                 <p className="text-2xl font-bold text-green-400">
                   {codes.filter(c => c.is_active).length}
                 </p>
               </div>
               <div className="bg-stone-800 rounded-lg p-4">
-                <p className="text-stone-400 text-sm">Totalt innløst</p>
+                <p className="text-stone-400 text-sm">Total Redeemed</p>
                 <p className="text-2xl font-bold text-purple-400">
                   {codes.reduce((sum, c) => sum + c.used_count, 0)}
                 </p>
@@ -173,12 +173,12 @@ function CodesContent() {
             {codes.length === 0 ? (
               <div className="bg-stone-800 rounded-lg p-12 text-center">
                 <div className="text-5xl mb-4">🎟️</div>
-                <p className="text-stone-400">Ingen koder generert ennå</p>
+                <p className="text-stone-400">No codes generated yet</p>
                 <button
                   onClick={() => setShowCreateModal(true)}
                   className="mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg"
                 >
-                  Generer din første kode
+                  Generate your first code
                 </button>
               </div>
             ) : (
@@ -186,13 +186,13 @@ function CodesContent() {
                 <table className="w-full">
                   <thead className="bg-stone-700">
                     <tr>
-                      <th className="text-left p-4 text-sm font-medium text-stone-300">Kode</th>
-                      <th className="text-left p-4 text-sm font-medium text-stone-300">Sak</th>
-                      <th className="text-left p-4 text-sm font-medium text-stone-300">Bruk</th>
-                      <th className="text-left p-4 text-sm font-medium text-stone-300">Notat</th>
+                      <th className="text-left p-4 text-sm font-medium text-stone-300">Code</th>
+                      <th className="text-left p-4 text-sm font-medium text-stone-300">Case</th>
+                      <th className="text-left p-4 text-sm font-medium text-stone-300">Usage</th>
+                      <th className="text-left p-4 text-sm font-medium text-stone-300">Note</th>
                       <th className="text-left p-4 text-sm font-medium text-stone-300">Status</th>
-                      <th className="text-left p-4 text-sm font-medium text-stone-300">Opprettet</th>
-                      <th className="text-right p-4 text-sm font-medium text-stone-300">Handling</th>
+                      <th className="text-left p-4 text-sm font-medium text-stone-300">Created</th>
+                      <th className="text-right p-4 text-sm font-medium text-stone-300">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -202,13 +202,13 @@ function CodesContent() {
                           <button
                             onClick={() => copyToClipboard(code.code)}
                             className="font-mono text-purple-400 hover:text-purple-300"
-                            title="Klikk for å kopiere"
+                          title="Click to copy"
                           >
                             {code.code}
                           </button>
                         </td>
                         <td className="p-4 text-stone-300">
-                          {code.mysteries?.title || "Ukjent"}
+                          {code.mysteries?.title || "Unknown"}
                         </td>
                         <td className="p-4">
                           <span className={code.used_count >= code.max_uses ? "text-red-400" : "text-green-400"}>
@@ -221,11 +221,11 @@ function CodesContent() {
                         <td className="p-4">
                           {code.is_active ? (
                             <span className="px-2 py-1 bg-green-900/50 text-green-400 rounded text-xs">
-                              Aktiv
+                              Active
                             </span>
                           ) : (
                             <span className="px-2 py-1 bg-red-900/50 text-red-400 rounded text-xs">
-                              Deaktivert
+                              Deactivated
                             </span>
                           )}
                         </td>
@@ -238,7 +238,7 @@ function CodesContent() {
                               onClick={() => handleDeactivate(code.id)}
                               className="text-red-400 hover:text-red-300 text-sm"
                             >
-                              Deaktiver
+                              Deactivate
                             </button>
                           )}
                         </td>
@@ -267,13 +267,13 @@ function CodesContent() {
             {createdCode ? (
               <div className="text-center">
                 <div className="text-5xl mb-4">✅</div>
-                <h2 className="text-xl font-bold mb-4">Kode generert!</h2>
+                <h2 className="text-xl font-bold mb-4">Code Generated!</h2>
                 <div 
                   className="bg-stone-900 rounded-lg p-4 mb-4 cursor-pointer hover:bg-stone-700 transition"
                   onClick={() => copyToClipboard(createdCode)}
                 >
                   <p className="font-mono text-2xl text-purple-400">{createdCode}</p>
-                  <p className="text-stone-400 text-xs mt-2">Klikk for å kopiere</p>
+                  <p className="text-stone-400 text-xs mt-2">Click to copy</p>
                 </div>
                 <button
                   onClick={() => {
@@ -282,15 +282,15 @@ function CodesContent() {
                   }}
                   className="px-6 py-2 bg-stone-700 hover:bg-stone-600 rounded-lg"
                 >
-                  Lukk
+                  Close
                 </button>
               </div>
             ) : (
               <>
-                <h2 className="text-xl font-bold mb-6">Generer tilgangskode</h2>
+                <h2 className="text-xl font-bold mb-6">Generate Access Code</h2>
                 <form onSubmit={handleCreate} className="space-y-4">
                   <div>
-                    <label className="block text-sm text-stone-400 mb-1">Velg sak</label>
+                    <label className="block text-sm text-stone-400 mb-1">Select Case</label>
                     <select
                       value={newCode.mysteryId}
                       onChange={(e) => setNewCode({ ...newCode, mysteryId: e.target.value })}
@@ -303,7 +303,7 @@ function CodesContent() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm text-stone-400 mb-1">Antall bruk</label>
+                    <label className="block text-sm text-stone-400 mb-1">Max Uses</label>
                     <input
                       type="number"
                       min="1"
@@ -314,12 +314,12 @@ function CodesContent() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-stone-400 mb-1">Notat (valgfritt)</label>
+                    <label className="block text-sm text-stone-400 mb-1">Note (optional)</label>
                     <input
                       type="text"
                       value={newCode.note}
                       onChange={(e) => setNewCode({ ...newCode, note: e.target.value })}
-                      placeholder="F.eks. 'Til influencer X'"
+                      placeholder="E.g. 'For influencer X'"
                       className="w-full px-4 py-2 bg-stone-700 border border-stone-600 rounded-lg"
                     />
                   </div>
@@ -329,14 +329,14 @@ function CodesContent() {
                       onClick={() => setShowCreateModal(false)}
                       className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 rounded-lg"
                     >
-                      Avbryt
+                      Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={creating || !newCode.mysteryId}
                       className="flex-1 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 rounded-lg font-semibold"
                     >
-                      {creating ? "..." : "Generer"}
+                      {creating ? "..." : "Generate"}
                     </button>
                   </div>
                 </form>
@@ -354,7 +354,7 @@ export default function AdminCodesPage() {
     <Suspense
       fallback={
         <main className="min-h-screen bg-stone-900 text-amber-100 flex items-center justify-center">
-          <div className="text-xl">Laster...</div>
+          <div className="text-xl">Loading...</div>
         </main>
       }
     >

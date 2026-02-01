@@ -69,12 +69,6 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
         {/* Footer */}
         <div className="p-4 border-t border-stone-800 space-y-2">
           <Link
-            href="/catalog"
-            className="flex items-center gap-2 px-4 py-2 text-sm text-stone-400 hover:text-white transition"
-          >
-            <span>📁</span> View Catalog
-          </Link>
-          <Link
             href="/"
             className="flex items-center gap-2 px-4 py-2 text-sm text-stone-400 hover:text-white transition"
           >
