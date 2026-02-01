@@ -1,0 +1,36 @@
+{
+  "id": "silent-harbour",
+  "title": "Silent Harbour",
+  "location": "Bergen, Norway",
+  "date": "January 15, 2026",
+  "difficulty": 2,
+  "estimatedMinutes": 45,
+  "priceNok": 149,
+  "createdAt": "2026-01-01T00:00:00Z",
+  "backstory": "Late at night, a shipping container worth millions disappears from Bergen Harbor under mysterious circumstances. A figure is spotted on security footage carrying a heavy duffel bag, and a Swedish executive goes missing. The fog that night was unusually thick and unnatural.\n\nWe're stuck. The police investigators need your help to piece together what happened, identify the perpetrator, and recover the stolen goods.",
+  "summary": "A high-value cargo theft during unusual fog conditions at Bergen Harbor.",
+  "culprit": {
+    "name": "Lina Haugen",
+    "image": "/culprits/silent-harbour.svg"
+  },
+  "suspects": [
+    {
+      "name": "Erik Nordström",
+      "role": "Swedish executive, former Scandinavian Maritime Ltd",
+      "status": "Missing person",
+      "notes": "Fired 6 months ago for cargo documentation irregularities. Known to frequent the harbor."
+    },
+    {
+      "name": "Lina Haugen",
+      "role": "Dock worker",
+      "status": "Person of interest",
+      "notes": "8 years employment. Recently showed unauthorized access to restricted areas. Mysterious financial deposit after incident."
+    },
+    {
+      "name": "Henrik Larsen",
+      "role": "Harbormaster",
+      "status": "Witness",
+      "notes": "30 years experience. Claims visibility was impossibly poor. Container vanished without trace."
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "ev-001",
+    "title": "Pass for Erik Nordström",
+    "type": "document",
+    "description": "Svensk pass funnet ved fortøyningsbolt 7. Tilhører Erik Nordström, født 1978. Siste inngangsstempel: Bergen, Norge, for 3 dager siden. Ingen utgangsstempel. Passet virker vannskadet.",
+    "storage_path": "cases/silent-harbour/evidence/passport-nordstrom.jpg",
+    "transcript": "Navn: Erik Nordström\nFødsel: 1978\nNasjonalitet: Svensk\nStatus: Savnet person\nSiste kjente sted: Bergen Havn\nNotater: Funnet på åstedet uten utgangsstempel fra Norge.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-002",
+    "title": "Sikkerhetskamera - Brygge",
+    "type": "video",
+    "description": "Fargeopptak fra bryggeinngang. Tidsstempel: 02:47. Viser figur i mørke klær med grønn duffelbag.",
+    "storage_path": "cases/silent-harbour/evidence/security-cam-entrance.mp4",
+    "transcript": "02:47 - Figur kommer inn på bryggen fra sørinngangen. Mørk hettegenser, umulig å se ansikt. Går med lett haltende gang på venstre ben. Bærer grønn duffelbag omtrent 1 meter lang. Estimert vekt: 20-30 kg basert på bevegelse. Person virker kjent med området, går direkte mot Brygge C uten å nøle.",
+    "unlocked_on_task_idx": 1,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-003",
+    "title": "Havnemesterens loggbok",
+    "type": "document",
+    "description": "Offisiell logg fra hendelsesnatten. Noterer uvanlig tåke og merkelige lyder.",
+    "storage_path": "cases/silent-harbour/evidence/log-entry.jpg",
+    "transcript": "01:15 - Uvanlig tåke ruller inn. Sikt dårlig.\n03:20 - Hørte metallisk skrapelyd fra Brygge C. Undersøkte men tåken for tykk til å se noe.\n05:30 - Tåke lettet. Oppdaget container C-23 mangler fra planlagt sted.\nSignert: Henrik Larsen, Havnemester",
+    "unlocked_on_task_idx": 2,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-004",
+    "title": "Fraktmanifest - MS Nordic Star",
+    "type": "document",
+    "description": "Fraktdokument datert for 4 dager siden. Container C-23 merket som elektronikk.",
+    "storage_path": "cases/silent-harbour/evidence/cargo-manifest.csv",
+    "transcript": "MANIFEST - MS NORDIC STAR\nDato: 4 dager tidligere\nOpprinnelse: Shanghai Havn\nDestinasjon: Oslo Havn\n\nContainer C-23:\nKategori: Elektronikk\nDeklarert innhold: Samsung-komponenter\nDeklarert vekt: 2400 kg\nFaktisk vekt (forseglet): UKJENT\nStatus: SAVNET",
+    "unlocked_on_task_idx": 3,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-005",
+    "title": "Avhør: Lina Haugen",
+    "type": "audio",
+    "description": "Politiavhør med havnearbeider Lina Haugen.",
+    "storage_path": "cases/silent-harbour/evidence/interview-lina.mp3",
+    "transcript": "Politibetjent: Hvor var du mellom 01:00 og 04:00?\nLina: Jeg var på pause. Tok en tur bort fra bryggen.\nPolitibetjent: Så du noen uvanlige?\nLina: Kanskje... noen ved Brygge C rundt kl 2. Kunne ikke se tydelig.\nPolitibetjent: Kjenner du denne personen?\nLina: Nei, tror ikke det. Aldri sett dem før.\n[Stemmeanalyse viser tegn på stress og nøling]",
+    "unlocked_on_task_idx": 4,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-006",
+    "title": "Anonym tipsopptak",
+    "type": "audio",
+    "description": "Opptak fra politiets tipslinje.",
+    "storage_path": "cases/silent-harbour/evidence/tip-recording.mp3",
+    "transcript": "Mannsstemme, skandinavisk aksent: 'Silent Harbour. Sjekk det gamle lageret på Brygge C. Se etter Container C-23. Ikke hva det ser ut som. Halvlederutstyret inni er verdt millioner. Sjekk vannet i nærheten.' [Anrop sporet til engangsmobil, ikke sporbar]",
+    "unlocked_on_task_idx": 3,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-007",
+    "title": "Erik Nordström - Bakgrunnssjekk",
+    "type": "document",
+    "description": "Bakgrunnssjekk på Erik Nordström.",
+    "storage_path": "cases/silent-harbour/evidence/background-nordstrom.pdf",
+    "transcript": "BAKGRUNNSSJEKK - ERIK NORDSTRÖM\nAlder: 46\nYrke: Tidligere direktør, Scandinavian Maritime Ltd\nFyrt: for 6 måneder siden for uregelmessigheter i fraktdokumentasjon\nStrafferegister: Ingen\nØkonomisk status: Betydelig gjeld\nBevegelsehistorikk: Hyppige besøk til Bergen havneområde\nTilknytninger: Ukjent",
+    "unlocked_on_task_idx": 2,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-008",
+    "title": "Lina Haugen - Personalfil",
+    "type": "document",
+    "description": "Havnearbeider personal- og bakgrunnsinformasjon.",
+    "storage_path": "cases/silent-harbour/evidence/personnel-lina.pdf",
+    "transcript": "PERSONALFIL - LINA HAUGEN\nStilling: Havnearbeider\nAnsettelsesvarighet: 8 år (eksemplarisk register inntil for 3 måneder siden)\nAdvarsler: 2 skriftlige advarsler for uautorisert tilgang til lukkede områder\nFamilie: Alenemor til to\nMedisinsk: Søster diagnostisert med kostbar medisinsk tilstand\nØkonomi: Nylig økonomisk vanskelighet\nAtferdsendring: Merkbar endring for 3 måneder siden",
+    "unlocked_on_task_idx": 4,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-009",
+    "title": "Henrik Larsen - Vitneforklaring",
+    "type": "document",
+    "description": "Havnemesterens vitneforklaring.",
+    "storage_path": "cases/silent-harbour/evidence/statement-henrik.pdf",
+    "transcript": "VITNEFORKLARING - HENRIK LARSEN\nStilling: Havnemester (30 års erfaring)\nForklaring: 'Jeg har aldri sett så tykk tåke. Kunne ikke se 3 meter foran meg. Siktbarheten var unaturlig. Da den lettet ved daggry, var containeren rett og slett borte. Ingen båtspor, ingen tegn på fjerning. Det er som om den forsvant.'",
+    "unlocked_on_task_idx": 3,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-010",
+    "title": "Avis - Bergens Tidende",
+    "type": "image",
+    "description": "Forsideartikkel om forsvinningen.",
+    "storage_path": "cases/silent-harbour/evidence/newspaper-clip.jpg",
+    "transcript": "BERGENS TIDENDE - OVERSKRIFT (for 2 dager siden)\n'MYSTISK FORSVINNING VED HAVNEN'\nContainer verdt millioner forsvinner i nattetåke. Politiet står uten spor.\nEn etterforskning pågår ved Bergen Havn etter at en verdifull fraktcontainer forsvant over natten. Containeren, som angivelig inneholdt elektronikk verdt flere millioner NOK, forsvant uten spor under uvanlige tåkeforhold.",
+    "unlocked_on_task_idx": 1,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-011",
+    "title": "Lagerinteriør - Åstedsfoto",
+    "type": "image",
+    "description": "Åstedsfoto fra Brygge C lagerinteriør.",
+    "storage_path": "cases/silent-harbour/evidence/warehouse-interior.jpg",
+    "transcript": "ÅSTEDSANALYSE - BRYGGE C LAGER\nObservasjoner:\n- Trukkspor synlig på betongulv mot bakutgang\n- Ferske oljemerkene på gulvet\n- Knust palletrevirke spredt ved lasteinngangen\n- Sikkerhetskamera tydelig deaktivert (kabel kuttet)\n- Bakutgang funnet ulåst\n- Ingen tegn på innbrudd",
+    "unlocked_on_task_idx": 5,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-012",
+    "title": "Tekstmeldinger - Linas telefon",
+    "type": "document",
+    "description": "Gjenvunnet tekstmeldinger fra Lina Haugens telefon.",
+    "storage_path": "cases/silent-harbour/evidence/text-messages.pdf",
+    "transcript": "GJENVUNNET TEKSTMELDINGER\n01:47: 'Er klar. Kysten klar.'\n02:15 (svar): 'Bra. Fortsett som planlagt.'\n03:45: 'Det er gjort. Når betaling?'\n[Meldinger ble slettet men gjenvunnet av forensikere. Mottaker ukjent. Sendt til engangsmobil.]",
+    "unlocked_on_task_idx": 6,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-013",
+    "title": "Banktransaksjon - Lina Haugen",
+    "type": "document",
+    "description": "Kontoutskrift som viser mistenkelig innskudd.",
+    "storage_path": "cases/silent-harbour/evidence/bank-transaction.pdf",
+    "transcript": "BANKTRANSAKSJONSREGISTER\nKonto: Lina Haugen\nDato: 1 dag etter hendelse\nBeløp: 150 000 NOK (ca. 14 000 USD)\nOpprinnelse: Offshore-konto (Kypros)\nNotat: 'Konsulent-tjenester'\nStatus: Ikke sporbar kilde, ingen legitim forretningsmessig tilknytning",
+    "unlocked_on_task_idx": 6,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-014",
+    "title": "Container C-23 - Faktisk innhold",
+    "type": "document",
+    "description": "Konfidensiell tollrapport som avslører faktisk last.",
+    "storage_path": "cases/silent-harbour/evidence/container-contents.pdf",
+    "transcript": "KONFIDENSIELL TOLLRAPPORT\nContainer C-23 Faktisk innhold:\n- Prototype halvlederproduksjonsutstyr\n- Klassifisering: Eksportbegrenset teknologi\n- Estimert verdi: 4,2 millioner USD\n- Tiltenkt destinasjon (Svart marked): Øst-Europa eller Asia\n- Teknologinivå: Avansert - kritiske infrastrukturapplikasjoner\nDenne lasten burde vært flagget for inspeksjon ved ankomst.",
+    "unlocked_on_task_idx": 5,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-015",
+    "title": "Værrapport - Bergen Havn",
+    "type": "document",
+    "description": "Meteorologiske data fra hendelsesnatten.",
+    "storage_path": "cases/silent-harbour/evidence/weather-report.pdf",
+    "transcript": "METEOROLOGISK RAPPORT - BERGEN HAVN\nHendelsesnattanalyse:\nTåke-innsett: 01:20\nSiktbarhet: Falt til nesten null innen 15 minutter (svært uvanlig)\nVarighet: 4 timer 10 minutter\nOpplettelse: 05:30 (brå, atypisk for naturlig tåke)\nLokale observasjoner: Fiskere rapporterer tåkemønster var 'unaturlig'\nKonklusjon: Selv om tåke er vanlig i Bergen, var timingen og intensiteten statistisk anomal.",
+    "unlocked_on_task_idx": 2,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-019",
+    "title": "GPS-logg - Båtbevegelser",
+    "type": "document",
+    "description": "Automatisk GPS-logg over båtbevegelser i og ut av havnen.",
+    "storage_path": "cases/silent-harbour/evidence/gps-log.csv",
+    "transcript": "GPS-LOGG - BERGEN HAVN\nDato: Hendelsesnatten\n\n00:15 - MS Nordic Star - Ankomst Brygge 2\n00:47 - Coastal Carrier - Avgang Brygge 5\n01:18 - Arctic Swan - Avgang Brygge 4 (siste båt ut)\n01:20 - Tåke registrert av havnemester\n05:30 - Tåke lettet\n06:15 - Morning Fisher - Ankomst Brygge 1\n\nNOTAT: Arctic Swan forlot havnen bare 2 minutter før tåken kom inn. Destinasjon: Rotterdam.",
+    "unlocked_on_task_idx": 1,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-016",
+    "title": "Avhør: Henrik Larsen (Innledende)",
+    "type": "audio",
+    "description": "Første politiavhør med havnemester Henrik Larsen, tatt umiddelbart etter oppdagelse.",
+    "storage_path": "cases/silent-harbour/evidence/interview-henrik-initial.mp3",
+    "transcript": "Politibetjent: Herr Larsen, når la du først merke til at noe var galt?\nHenrik: Rundt 05:30. Tåken lettet plutselig, og jeg gjorde mine vanlige runder. Da så jeg at container C-23 var borte fra manifestposisjonen.\nPolitibetjent: Var det noen tegn på innbrudd eller brukt utstyr?\nHenrik: Absolutt ingen. Alt lasteutstyr var på plass. Portloggene viste ingen kjøretøy inn etter midnatt.\nPolitibetjent: Hadde du lagt merke til noe mistenkelig i dagene før?\nHenrik: Vel... nå som du nevner det, Erik Nordström hadde holdt seg rundt mer enn vanlig. Han ble sagt opp fra Scandinavian Maritime for måneder siden men fortsatte å dukke opp.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-017",
+    "title": "Avhør: Marcus Olsen (Nattevakt)",
+    "type": "audio",
+    "description": "Avhør med nattevakt på vakt under tyveriet.",
+    "storage_path": "cases/silent-harbour/evidence/interview-marcus.mp3",
+    "transcript": "Politibetjent: Hvilken tid startet vakten din?\nMarcus: 22:00. Alt var normalt til rundt 01:00 da tåken kom inn.\nPolitibetjent: Så du noen som kom inn eller gikk ut?\nMarcus: Jeg så Lina Haugen forlate hovedbygningen rundt 01:45. Hun sa hun tok pausen tidlig fordi hun ikke følte seg bra. Men hennes vakt har vanligvis ikke pauser på den tiden.\nPolitibetjent: Så du hvor hun gikk?\nMarcus: Mot Brygge C, tror jeg. Men tåken ble så tykk at jeg mistet henne av syne nesten umiddelbart. Jeg antok hun gikk til pauserommet ved lageret.\nPolitibetjent: Noe annet uvanlig?\nMarcus: Kameraene på Brygge C gikk offline kl. 02:43. Jeg rapporterte det men ble bedt om å vente til morgenen for vedlikehold.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-018",
+    "title": "Avhør: Sara Johansen (Havnearbeider)",
+    "type": "audio",
+    "description": "Avhør med kollega til Lina Haugen.",
+    "storage_path": "cases/silent-harbour/evidence/interview-sara.mp3",
+    "transcript": "Politibetjent: Hvor godt kjenner du Lina Haugen?\nSara: Vi har jobbet sammen i 5 år. Hun har alltid vært pålitelig, aldri for sen, aldri forårsaket problemer.\nPolitibetjent: Har du lagt merke til noen endringer i hennes oppførsel nylig?\nSara: Faktisk, ja. For omtrent 3 måneder siden begynte hun å opptre... stresset. Pengeproblemer, tror jeg. Søsteren hennes fikk diagnostisert en sjelden tilstand som krever kostbar behandling.\nPolitibetjent: Nevnte hun noen gang at hun trengte penger?\nSara: En gang spurte hun om jeg kjente noen som ansetter for helgearbeid. Hun virket desperat. Og forrige uke så jeg henne snakke med noen på parkeringsplassen sent på kvelden. En mann, kunne ikke se ansiktet hans tydelig, men han hadde på seg dyre klær. Virket ikke som noen herfra.\nPolitibetjent: Virket Lina nervøs om dette møtet?\nSara: Nei, det er den rare delen. Hun virket... fokusert. Som om hun planla noe.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  }
+]

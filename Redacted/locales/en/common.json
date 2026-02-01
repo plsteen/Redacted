@@ -1,0 +1,57 @@
+{
+  "brand": "Redacted",
+  "brandTagline": "Nordic noir co-op mystery",
+  "nav": {
+    "play": "Play",
+    "board": "Board",
+    "docs": "Docs"
+  },
+  "hero": {
+    "title": "Crack the case together.",
+    "subtitle": "A 1-6 player cooperative investigation with realtime sync, hints per task, and a final accusation.",
+    "ctaPrimary": "Start a session",
+    "ctaSecondary": "Open board",
+    "bullets": [
+      "Realtime sync across every device",
+      "One hint per task, no penalties",
+      "Board mode with pinned evidence"
+    ]
+  },
+  "forms": {
+    "sessionCode": "Session code",
+    "sessionCodeHelp": "Use a join code to enter an existing session or host a new one.",
+    "joinSession": "Join session",
+    "createSession": "Create new session",
+    "hostNote": "Hosts purchase the case once; teammates join free."
+  },
+  "play": {
+    "taskSection": "Current task",
+    "hint": "Hint",
+    "hintUsed": "Hint used",
+    "evidence": "Evidence",
+    "answerPlaceholder": "Type your answer",
+    "submit": "Submit answer",
+    "confirmSubmit": "Are you sure about your answer?",
+    "confirmHint": "Are you sure you want to use a hint?",
+    "joinCode": "Join code",
+    "copy": "Copy",
+    "copied": "Copied",
+    "tryAgain": "Try again",
+    "locked": "Locked while checking…",
+    "progress": "Progress"
+  },
+  "board": {
+    "title": "Board view",
+    "pinned": "Pinned evidence",
+    "timeline": "Timeline",
+    "present": "Present to board"
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "norwegian": "Norsk"
+  },
+  "footer": {
+    "note": "Built for collaborative investigations"
+  }
+}

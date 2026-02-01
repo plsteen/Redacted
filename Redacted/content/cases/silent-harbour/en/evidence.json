@@ -1,0 +1,192 @@
+[
+  {
+    "id": "ev-001",
+    "title": "Passport of Erik Nordström",
+    "type": "document",
+    "description": "Swedish passport found next to mooring post 7. Belongs to Erik Nordström, born 1978. Last entry stamp: Bergen, Norway, 3 days ago. No exit stamp. Passport appears water-damaged.",
+    "storage_path": "cases/silent-harbour/evidence/passport-nordstrom.jpg",
+    "transcript": "Name: Erik Nordström\nBirth: 1978\nNationality: Swedish\nStatus: Missing person\nLast known location: Bergen Harbor\nNotes: Found at crime scene with no exit stamp from Norway.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-002",
+    "title": "Security Camera Footage - Dock",
+    "type": "video",
+    "description": "Color security footage from dock entrance. Timestamp: 02:47 AM. Shows figure in dark clothing carrying green duffel bag.",
+    "storage_path": "cases/silent-harbour/evidence/security-cam-entrance.mp4",
+    "transcript": "02:47 AM - Figure enters dock from south entrance. Dark hoodie, impossible to see face. Walks with slight limp on left leg. Carrying green duffel bag approximately 1 meter in length. Estimated weight: 20-30 kg based on movement. Person appears familiar with the area, walks directly toward Pier C without hesitation.",
+    "unlocked_on_task_idx": 1,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-003",
+    "title": "Harbormaster's Log Entry",
+    "type": "document",
+    "description": "Official log from night of incident. Notes unusual fog and strange sounds.",
+    "storage_path": "cases/silent-harbour/evidence/log-entry.jpg",
+    "transcript": "01:15 - Unusual fog rolling in. Visibility poor.\n03:20 - Heard metallic scraping sound from Pier C. Investigated but fog too thick to see anything.\n05:30 - Fog cleared. Discovered container C-23 missing from scheduled location.\nSigned: Henrik Larsen, Harbormaster",
+    "unlocked_on_task_idx": 2,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-004",
+    "title": "Cargo Manifest - MS Nordic Star",
+    "type": "document",
+    "description": "Shipping manifest dated 4 days ago. Container C-23 marked as electronics.",
+    "storage_path": "cases/silent-harbour/evidence/cargo-manifest.csv",
+    "transcript": "MANIFEST - MS NORDIC STAR\nDate: 4 days prior\nOrigin: Shanghai Port\nDestination: Oslo Port\n\nContainer C-23:\nCategory: Electronics\nDeclared Contents: Samsung components\nDeclared Weight: 2400 kg\nActual Weight (Sealed): UNKNOWN\nStatus: MISSING",
+    "unlocked_on_task_idx": 3,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-005",
+    "title": "Interview: Lina Haugen",
+    "type": "audio",
+    "description": "Police interview with dock worker Lina Haugen.",
+    "storage_path": "cases/silent-harbour/evidence/interview-lina.mp3",
+    "transcript": "Officer: Where were you between 01:00 and 04:00?\nLina: I was on break. Took a walk away from the dock.\nOfficer: Did you see anyone unusual?\nLina: Maybe... someone near Pier C around 2 AM. Couldn't see clearly.\nOfficer: Do you know this person?\nLina: No, I don't think so. Never seen them before.\n[Voice analysis shows signs of stress and hesitation]",
+    "unlocked_on_task_idx": 4,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-006",
+    "title": "Anonymous Tip Recording",
+    "type": "audio",
+    "description": "Police tip line recording.",
+    "storage_path": "cases/silent-harbour/evidence/tip-recording.mp3",
+    "transcript": "Male voice, Scandinavian accent: 'Silent Harbour. Check the old warehouse on Pier C. Look for Container C-23. Not what it seems. The semiconductor equipment inside is worth millions. Check the water nearby.' [Call traced to burner phone, untraceable]",
+    "unlocked_on_task_idx": 3,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-007",
+    "title": "Erik Nordström - Background",
+    "type": "document",
+    "description": "Background check on Erik Nordström.",
+    "storage_path": "cases/silent-harbour/evidence/background-nordstrom.pdf",
+    "transcript": "BACKGROUND CHECK - ERIK NORDSTRÖM\nAge: 46\nOccupation: Former executive, Scandinavian Maritime Ltd\nFired: 6 months ago for irregularities in cargo documentation\nCriminal Record: None\nFinancial Status: Significant debts\nLocation History: Frequent visits to Bergen harbor area\nAssociations: Unknown",
+    "unlocked_on_task_idx": 2,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-008",
+    "title": "Lina Haugen - Personnel File",
+    "type": "document",
+    "description": "Dock worker personnel and background information.",
+    "storage_path": "cases/silent-harbour/evidence/personnel-lina.pdf",
+    "transcript": "PERSONNEL FILE - LINA HAUGEN\nPosition: Dock Worker\nEmployment Duration: 8 years (exemplary record until 3 months ago)\nWarnings: 2 written warnings for unauthorized access to restricted areas\nFamily: Single mother of two\nMedical: Sister diagnosed with expensive medical condition\nFinancial: Recent financial hardship\nBehavior Change: Notable shift 3 months ago",
+    "unlocked_on_task_idx": 4,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-009",
+    "title": "Henrik Larsen - Statement",
+    "type": "document",
+    "description": "Harbormaster's witness statement.",
+    "storage_path": "cases/silent-harbour/evidence/statement-henrik.pdf",
+    "transcript": "WITNESS STATEMENT - HENRIK LARSEN\nPosition: Harbormaster (30 years experience)\nStatement: 'I've never seen fog that thick. Couldn't see 3 meters ahead. The visibility was unnatural. When it cleared at dawn, the container was simply gone. No boat trails, no signs of removal. It's as if it vanished.'",
+    "unlocked_on_task_idx": 3,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-010",
+    "title": "Newspaper - Bergens Tidende",
+    "type": "image",
+    "description": "Front page newspaper article about the disappearance.",
+    "storage_path": "cases/silent-harbour/evidence/newspaper-clip.jpg",
+    "transcript": "BERGENS TIDENDE - HEADLINE (2 days ago)\n'MYSTERIOUS DISAPPEARANCE AT HARBOR'\nContainer worth millions vanishes in night fog. Police baffled.\nAn investigation is underway at Bergen Harbor after a valuable shipping container disappeared overnight. The container, reportedly containing electronics worth several million NOK, vanished without a trace during unusual fog conditions.",
+    "unlocked_on_task_idx": 1,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-011",
+    "title": "Warehouse Interior - Crime Scene Photo",
+    "type": "image",
+    "description": "Crime scene photograph of Pier C warehouse interior.",
+    "storage_path": "cases/silent-harbour/evidence/warehouse-interior.jpg",
+    "transcript": "CRIME SCENE ANALYSIS - PIER C WAREHOUSE\nObservations:\n- Forklift tracks visible on concrete floor leading to back exit\n- Fresh oil stains on ground\n- Broken pallet wood scattered near loading bay\n- Security camera visibly disabled (cable cut)\n- Back exit door found unlocked\n- No signs of forced entry",
+    "unlocked_on_task_idx": 5,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-012",
+    "title": "Text Messages - Lina's Phone",
+    "type": "document",
+    "description": "Recovered text messages from Lina Haugen's phone.",
+    "storage_path": "cases/silent-harbour/evidence/text-messages.pdf",
+    "transcript": "RECOVERED TEXT MESSAGES\n01:47 AM: 'Is ready. Coast clear.'\n02:15 AM (reply): 'Good. Proceed as planned.'\n03:45 AM: 'It's done. When payment?'\n[Messages were deleted but recovered by forensics. Recipient unknown. Sent to burner phone.]",
+    "unlocked_on_task_idx": 6,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-013",
+    "title": "Bank Transaction - Lina Haugen",
+    "type": "document",
+    "description": "Bank statement showing suspicious deposit.",
+    "storage_path": "cases/silent-harbour/evidence/bank-transaction.pdf",
+    "transcript": "BANK TRANSACTION RECORD\nAccount: Lina Haugen\nDate: 1 day after incident\nAmount: 150,000 NOK (approximately 14,000 USD)\nOrigin: Offshore account (Cyprus)\nMemo: 'Consulting services'\nStatus: Untraced source, no legitimate business relation",
+    "unlocked_on_task_idx": 6,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-014",
+    "title": "Container C-23 - True Contents",
+    "type": "document",
+    "description": "Confidential customs report revealing actual cargo.",
+    "storage_path": "cases/silent-harbour/evidence/container-contents.pdf",
+    "transcript": "CONFIDENTIAL CUSTOMS REPORT\nContainer C-23 Actual Contents:\n- Prototype semiconductor manufacturing equipment\n- Classification: Export restricted technology\n- Estimated Value: 4.2 million USD\n- Intended Destination (Black Market): Eastern Europe or Asia\n- Technology Level: Advanced - critical infrastructure applications\nThis cargo should have been flagged for inspection upon arrival.",
+    "unlocked_on_task_idx": 5,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-015",
+    "title": "Weather Report - Bergen Harbor",
+    "type": "document",
+    "description": "Meteorological data from incident night.",
+    "storage_path": "cases/silent-harbour/evidence/weather-report.pdf",
+    "transcript": "METEOROLOGICAL REPORT - BERGEN HARBOR\nIncident Night Analysis:\nFog Onset: 01:20 AM\nVisibility: Dropped to near-zero within 15 minutes (highly unusual)\nDuration: 4 hours 10 minutes\nClearance: 05:30 AM (abrupt, atypical for natural fog)\nLocal Observations: Fishermen report fog pattern was 'unnatural'\nConclusion: While fog is common in Bergen, the timing and intensity were statistically anomalous.",
+    "unlocked_on_task_idx": 2,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-019",
+    "title": "GPS Log - Vessel Movements",
+    "type": "document",
+    "description": "Automated GPS log of vessel movements in and out of the harbor.",
+    "storage_path": "cases/silent-harbour/evidence/gps-log.csv",
+    "transcript": "GPS LOG - BERGEN HARBOR\nDate: Incident Night\n\n00:15 - MS Nordic Star - Arrival Berth 2\n00:47 - Coastal Carrier - Departure Berth 5\n01:18 - Arctic Swan - Departure Berth 4 (last vessel out)\n01:20 - Fog reported by harbormaster\n05:30 - Fog cleared\n06:15 - Morning Fisher - Arrival Berth 1\n\nNOTE: Arctic Swan left harbor just 2 minutes before fog onset. Destination: Rotterdam.",
+    "unlocked_on_task_idx": 1,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-016",
+    "title": "Interview: Henrik Larsen (Initial)",
+    "type": "audio",
+    "description": "First police interview with harbormaster Henrik Larsen, taken immediately after discovery.",
+    "storage_path": "cases/silent-harbour/evidence/interview-henrik-initial.mp3",
+    "transcript": "Officer: Mr. Larsen, when did you first notice something was wrong?\nHenrik: Around 05:30. The fog lifted suddenly, and I did my usual rounds. That's when I saw container C-23 was missing from the manifest position.\nOfficer: Was there any sign of forced entry or equipment used?\nHenrik: None whatsoever. The loading equipment was all accounted for. The gate logs showed no vehicles entering after midnight.\nOfficer: Had you noticed anything suspicious in the days before?\nHenrik: Well... now that you mention it, Erik Nordström had been hanging around more than usual. He was terminated from Scandinavian Maritime months ago but kept showing up.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-017",
+    "title": "Interview: Marcus Olsen (Night Security)",
+    "type": "audio",
+    "description": "Interview with night security guard on duty during the theft.",
+    "storage_path": "cases/silent-harbour/evidence/interview-marcus.mp3",
+    "transcript": "Officer: What time did your shift start?\nMarcus: 22:00 hours. Everything was normal until around 01:00 when the fog rolled in.\nOfficer: Did you see anyone entering or leaving?\nMarcus: I did see Lina Haugen leaving the main building around 01:45. She said she was taking her break early because she wasn't feeling well. But her shift doesn't usually have breaks at that time.\nOfficer: Did you see where she went?\nMarcus: Toward Pier C, I think. But the fog got so thick I lost sight of her almost immediately. I assumed she went to the break room near the warehouse.\nOfficer: Anything else unusual?\nMarcus: The cameras on Pier C went offline at 02:43. I reported it but was told to wait until morning for maintenance.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  },
+  {
+    "id": "ev-018",
+    "title": "Interview: Sara Johansen (Dock Worker)",
+    "type": "audio",
+    "description": "Interview with colleague of Lina Haugen.",
+    "storage_path": "cases/silent-harbour/evidence/interview-sara.mp3",
+    "transcript": "Officer: How well do you know Lina Haugen?\nSara: We've worked together for 5 years. She's always been reliable, never late, never caused problems.\nOfficer: Have you noticed any changes in her behavior recently?\nSara: Actually, yes. About 3 months ago she started acting... stressed. Money problems, I think. Her sister got diagnosed with some rare condition that requires expensive treatment.\nOfficer: Did she ever mention needing money?\nSara: Once she asked if I knew anyone hiring for weekend work. She seemed desperate. And last week I saw her talking to someone in the parking lot late at night. A man, couldn't see his face clearly, but he was wearing expensive clothes. Didn't seem like someone from around here.\nOfficer: Did Lina seem nervous about this meeting?\nSara: No, that's the strange part. She seemed... focused. Like she was planning something.",
+    "unlocked_on_task_idx": 0,
+    "has_transcript": true
+  }
+]

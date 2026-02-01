@@ -1,0 +1,79 @@
+[
+  {
+    "id": "silent-1",
+    "idx": 1,
+    "type": "mcq",
+    "question": "What item was found beside the mooring post?",
+    "options": ["Passport", "Knife", "Phone"],
+    "answer": "Passport",
+    "hint": "Check the harbor manifest notes.",
+    "is_final": false,
+    "revelation": "The passport belongs to Erik Nordström, a Swedish executive who went missing the night of the theft. His passport showed recent stamps from Bergen—he should have been able to leave, but there's no exit record. This suggests someone was preventing him from leaving, or worse.\n\n🔓 New evidence: Security Camera Footage - Dock"
+  },
+  {
+    "id": "silent-2",
+    "idx": 2,
+    "type": "open",
+    "question": "Which boat left the harbor just before the fog arrived?",
+    "options": [],
+    "answer": "Arctic Swan",
+    "hint": "Look at the GPS log and harbormaster's log.",
+    "is_final": false,
+    "revelation": "The Arctic Swan, a cargo vessel, was the last boat to leave Bergen Harbor before the fog rolled in at 01:20. This timing is suspicious. Someone may have coordinated the theft with the ship's departure—the container could have been transferred to a waiting vessel.\n\n🔓 New evidence: Harbormaster's Log Entry, Erik Nordström - Background"
+  },
+  {
+    "id": "silent-3",
+    "idx": 3,
+    "type": "mcq",
+    "question": "What is distinctive about the person's walking pattern on CCTV?",
+    "options": ["Limps on left leg", "Limps on right leg", "Walks normally"],
+    "answer": "Limps on left leg",
+    "hint": "Watch the movement pattern carefully throughout the footage.",
+    "is_final": false,
+    "revelation": "The figure in the CCTV footage limps slightly on their left leg while carrying a heavy green duffel bag toward Pier C Warehouse. Lina Haugen sustained a foot injury 2 months ago during harbor work. Forensic analysis also shows fibers matching Lina Haugen's work uniform near the same warehouse entrance.\n\n🔓 New evidence: Cargo Manifest - MS Nordic Star, Anonymous Tip Recording"
+  },
+  {
+    "id": "silent-4",
+    "idx": 4,
+    "type": "open",
+    "question": "What code phrase is used in the tip recording?",
+    "options": [],
+    "answer": "Silent harbour",
+    "hint": "Listen to the beginning of the tip recording.",
+    "is_final": false,
+    "revelation": "In the tip recording, 'Silent Harbour' is mentioned—a phrase Lina used with her co-workers. This suggests the theft was more organized than a single act of opportunism. Someone coordinated from the inside.\n\n🔓 New evidence: Interview: Lina Haugen, Lina Haugen - Personnel File"
+  },
+  {
+    "id": "silent-5",
+    "idx": 5,
+    "type": "mcq",
+    "question": "Which pier camera went offline first?",
+    "options": ["Pier A", "Pier C", "Pier E"],
+    "answer": "Pier C",
+    "hint": "Match timestamps with the GPS log.",
+    "is_final": false,
+    "revelation": "Pier C's camera went offline at 02:43 AM—exactly when the figure with the duffel bag appeared on other cameras. This wasn't accidental. Someone inside the harbor deliberately disabled security to cover the theft. Lina Haugen had access codes to all camera systems.\n\n🔓 New evidence: Warehouse Interior - Crime Scene Photo, Container C-23 - True Contents"
+  },
+  {
+    "id": "silent-6",
+    "idx": 6,
+    "type": "open",
+    "question": "What object ties the suspect to the victim?",
+    "options": [],
+    "answer": "Brass key",
+    "hint": "Check the pinned evidence about the locker.",
+    "is_final": false,
+    "revelation": "A brass key was found in Erik's pocket—it opens a storage locker at the harbor. Inside: forged shipping documents, photographs of Container C-23, and financial transfers from an offshore account in Cyprus. Erik was the planner, but he was silenced before he could leave. Lina was his inside accomplice.\n\n🔓 New evidence: Text Messages - Lina's Phone, Bank Transaction - Lina Haugen"
+  },
+  {
+    "id": "silent-7",
+    "idx": 7,
+    "type": "open",
+    "question": "Who is the culprit?",
+    "options": [],
+    "answer": "Lina Haugen",
+    "hint": "Combine the GPS log and interview slip.",
+    "is_final": true,
+    "revelation": "Lina Haugen orchestrated the theft with Erik Nordström's plan. She disabled the cameras, moved the container to Pier C, and transferred it to the Arctic Swan using dock equipment. Within hours of the theft, she received a 150,000 NOK payment from a Cyprus account. Erik was likely eliminated to prevent him from talking. The semiconductor equipment inside Container C-23 was bound for black market buyers in Eastern Europe. Justice has been served—the case is closed."
+  }
+]

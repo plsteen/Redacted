@@ -1,0 +1,57 @@
+{
+  "brand": "Redacted",
+  "brandTagline": "Nordic noir-samarbeid",
+  "nav": {
+    "play": "Spill",
+    "board": "Board",
+    "docs": "Dokumentasjon"
+  },
+  "hero": {
+    "title": "Løs saken sammen.",
+    "subtitle": "1–6 spillere etterforsker i sanntid, ett hint per oppgave, og en siste anklage.",
+    "ctaPrimary": "Start en sesjon",
+    "ctaSecondary": "Åpne board",
+    "bullets": [
+      "Progresjon synkes på alle enheter",
+      "Ett hint per oppgave, ingen straff",
+      "Board-modus med pinned bevis"
+    ]
+  },
+  "forms": {
+    "sessionCode": "Sesjonskode",
+    "sessionCodeHelp": "Bruk en kode for å bli med, eller host en ny sesjon.",
+    "joinSession": "Bli med",
+    "createSession": "Opprett ny sesjon",
+    "hostNote": "Host kjøper caset én gang; resten joiner gratis."
+  },
+  "play": {
+    "taskSection": "Aktiv oppgave",
+    "hint": "Hint",
+    "hintUsed": "Hint brukt",
+    "evidence": "Bevis",
+    "answerPlaceholder": "Skriv svaret ditt",
+    "submit": "Send svar",
+    "confirmSubmit": "Er du helt sikker på svaret?",
+    "confirmHint": "Er du helt sikker på at du vil bruke et hint?",
+    "joinCode": "Joinkode",
+    "copy": "Kopier",
+    "copied": "Kopiert",
+    "tryAgain": "Prøv igjen",
+    "locked": "Låst mens vi sjekker…",
+    "progress": "Progresjon"
+  },
+  "board": {
+    "title": "Board-visning",
+    "pinned": "Pinnede bevis",
+    "timeline": "Tidslinje",
+    "present": "Presenter på board"
+  },
+  "language": {
+    "label": "Språk",
+    "english": "English",
+    "norwegian": "Norsk"
+  },
+  "footer": {
+    "note": "Bygget for samarbeidende etterforskning"
+  }
+}

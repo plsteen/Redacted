@@ -1,0 +1,9 @@
+<svg width="480" height="640" viewBox="0 0 480 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="480" height="640" rx="24" fill="#111318"/>
+  <rect x="24" y="24" width="432" height="592" rx="20" fill="#0B0C10" stroke="#E8B84D" stroke-width="2"/>
+  <circle cx="240" cy="190" r="72" fill="#1E232B"/>
+  <path d="M120 512C120 430.954 173.954 370 255 370H225C306.046 370 360 430.954 360 512V560H120V512Z" fill="#1E232B"/>
+  <path d="M168 188C168 147.516 200.516 115 241 115H239C279.484 115 312 147.516 312 188V208C312 248.484 279.484 281 239 281H241C200.516 281 168 248.484 168 208V188Z" fill="#1A1F27"/>
+  <path d="M160 520C160 456.548 210.548 406 274 406H206C269.452 406 320 456.548 320 520V552H160V520Z" fill="#151A21"/>
+  <text x="240" y="590" text-anchor="middle" fill="#E8B84D" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="18" letter-spacing="3">SUSPECT</text>
+</svg>

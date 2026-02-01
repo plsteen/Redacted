@@ -1,0 +1,79 @@
+[
+  {
+    "id": "silent-1",
+    "idx": 1,
+    "type": "mcq",
+    "question": "Hvilken gjenstand lå ved fortøyningsbolten?",
+    "options": ["Pass", "Kniv", "Telefon"],
+    "answer": "Pass",
+    "hint": "Sjekk notatene i havnens manifest.",
+    "is_final": false,
+    "revelation": "Passet tilhører Erik Nordström, en svensk direktør som forsvant natten for tyveriet. Passet hans viste nylige stempel fra Bergen—han burde ha kunnet forlate, men det finnes ingen utgangsstempel. Dette tyder på at noen hindret ham i å forlate, eller verre.\n\n🔓 Nye bevis: Sikkerhetskamera - Brygge"
+  },
+  {
+    "id": "silent-2",
+    "idx": 2,
+    "type": "open",
+    "question": "Hvilken båt forlot havnen rett før tåken kom?",
+    "options": [],
+    "answer": "Arctic Swan",
+    "hint": "Se på GPS-loggen og havnemesterens logg.",
+    "is_final": false,
+    "revelation": "Arctic Swan, en lastebåt, var siste båt som dro fra Bergen Havn før tåken trillet inn kl. 01:20. Denne timingen er mistenkelig. Noen kan ha koordinert tyveriet med båtens avgang—containeren kan ha blitt overført til et annet skip.\n\n🔓 Nye bevis: Havnemesterens loggbok, Erik Nordström - Bakgrunnssjekk"
+  },
+  {
+    "id": "silent-3",
+    "idx": 3,
+    "type": "mcq",
+    "question": "Hva er det spesielle ved gangarten til personen på CCTV?",
+    "options": ["Halter på venstre ben", "Halter på høyre ben", "Går normalt"],
+    "answer": "Halter på venstre ben",
+    "hint": "Se nøye på bevegelsesmønsteret gjennom hele opptaket.",
+    "is_final": false,
+    "revelation": "Figuren på CCTV-opptaket halter lett på venstre ben mens han bærer en tung grønn duffelbag mot Brygge C Lager. Lina Haugen fikk en fotskade for 2 måneder siden under havnearbeid. Forensisk analyse viser også fibre som samsvarer med Lina Haugens arbeidsuniform nær samme lagerinngangen.\n\n🔓 Nye bevis: Fraktmanifest - MS Nordic Star, Anonym tipsopptak"
+  },
+  {
+    "id": "silent-4",
+    "idx": 4,
+    "type": "open",
+    "question": "Hvilken kodefrase brukes i tipsopptaket?",
+    "options": [],
+    "answer": "Silent harbour",
+    "hint": "Hør på begynnelsen av tipsopptaket.",
+    "is_final": false,
+    "revelation": "I tipsopptaket nevnes 'Silent Harbour'—en frase Lina brukte med kollegaene. Dette tyder på at tyveriet var mer organisert enn en enkelt opportunistisk handling. Noen koordinerte fra innsiden.\n\n🔓 Nye bevis: Avhør: Lina Haugen, Lina Haugen - Personalfil"
+  },
+  {
+    "id": "silent-5",
+    "idx": 5,
+    "type": "mcq",
+    "question": "Hvilket bryggekamera gikk ned først?",
+    "options": ["Brygge A", "Brygge C", "Brygge E"],
+    "answer": "Brygge C",
+    "hint": "Match tidsstempler med GPS-loggen.",
+    "is_final": false,
+    "revelation": "Brygge Cs kamera gikk ned kl. 02:43—akkurat når figuren med duffelbagen dukket opp på andre kamera. Dette var ikke en ulykke. Noen inne på havnen deaktivert bevisst sikkerhet for å dekke tyveriet. Lina Haugen hadde tilgangskoder til alle kamerasystemer.\n\n🔓 Nye bevis: Lagerinteriør - Åstedsfoto, Container C-23 - Faktisk innhold"
+  },
+  {
+    "id": "silent-6",
+    "idx": 6,
+    "type": "open",
+    "question": "Hvilket objekt knytter mistenkte til offeret?",
+    "options": [],
+    "answer": "Messingnøkkel",
+    "hint": "Se på beviset om skapet.",
+    "is_final": false,
+    "revelation": "En messingnøkkel ble funnet i Eriks lomme—den åpner et oppbevaringskap ved havnen. Inni: forfalskede fraktdokumenter, fotografier av Container C-23, og økonomiske overføringer fra en offshore-konto på Kypros. Erik var planleggeren, men han ble stilnet før han kunne forlate. Lina var hans innside-medsammensvoren.\n\n🔓 Nye bevis: Tekstmeldinger - Linas telefon, Banktransaksjon - Lina Haugen"
+  },
+  {
+    "id": "silent-7",
+    "idx": 7,
+    "type": "open",
+    "question": "Hvem er gjerningspersonen?",
+    "options": [],
+    "answer": "Lina Haugen",
+    "hint": "Kombiner GPS-loggen og intervjuslippen.",
+    "is_final": true,
+    "revelation": "Lina Haugen orkestrerte tyveriet med Eriks plan. Hun deaktivert kameraene, flytet containeren til Brygge C, og overførte den til Arctic Swan med havneequipment. Innen timer etter tyveriet mottok hun et innskudd på 150 000 NOK fra en Kypros-konto. Erik ble sannsynligvis eliminert for å forhindre ham i å snakke. Halvlederutstyret inne i Container C-23 var bestemt for svartemarkedsbyggere i Øst-Europa. Rettferdighet er sikret—saken er løst."
+  }
+]

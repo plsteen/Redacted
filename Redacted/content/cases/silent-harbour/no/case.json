@@ -1,0 +1,36 @@
+{
+  "id": "silent-harbour",
+  "title": "Taus Havn",
+  "location": "Bergen, Norge",
+  "date": "15. januar 2026",
+  "difficulty": 2,
+  "estimatedMinutes": 45,
+  "priceNok": 149,
+  "createdAt": "2026-01-01T00:00:00Z",
+  "backstory": "Sent på kvelden forsvinner en shipping container verdt millioner fra Bergen Havn under mystiske omstendigheter. En skikkelse blir observert på sikkerhetskamera med en tung duffelbag, og en svensk direktør forsvinner. Tåken den kvelden var uvanlig tett og unaturlig.\n\nVi står fast. Politiets etterforskere trenger din hjelp til å sette sammen hva som skjedde, identifisere gjerningspersonen, og gjenvinne det stjålne godset.",
+  "summary": "Et høytverdig lastestyveri under uvanlige tåkeforhold ved Bergen Havn.",
+  "culprit": {
+    "name": "Lina Haugen",
+    "image": "/culprits/silent-harbour.svg"
+  },
+  "suspects": [
+    {
+      "name": "Erik Nordström",
+      "role": "Svensk direktør, tidligere Scandinavian Maritime Ltd",
+      "status": "Savnet person",
+      "notes": "Fyrt for 6 måneder siden på grunn av uregelmessigheter i lastdokumentasjon. Kjent for å besøke havnen ofte."
+    },
+    {
+      "name": "Lina Haugen",
+      "role": "Havnearbeider",
+      "status": "Person av interesse",
+      "notes": "8 år ansettelse. Viste nylig uautorisert tilgang til begrenset område. Mysteriøs økonomisk innskudd etter hendelse."
+    },
+    {
+      "name": "Henrik Larsen",
+      "role": "Havnemester",
+      "status": "Vitne",
+      "notes": "30 års erfaring. Hevder at synligheten var umulig dårlig. Containeren forsvant uten spor."
+    }
+  ]
+}
