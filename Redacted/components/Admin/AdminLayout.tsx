@@ -10,6 +10,7 @@ interface AdminLayoutProps {
 
 const menuItems = [
   { href: "/admin", icon: "🏠", label: "Dashboard", color: "amber" },
+  { href: "/admin/cases", icon: "🎯", label: "Cases", color: "blue" },
   { href: "/admin/activity", icon: "👥", label: "User Activity", color: "green" },
   { href: "/admin/analytics", icon: "📊", label: "Game Stats", color: "amber" },
   { href: "/admin/messages", icon: "📨", label: "Messages", color: "blue" },

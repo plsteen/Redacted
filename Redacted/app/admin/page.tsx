@@ -345,7 +345,14 @@ function AdminContent() {
           </div>
 
           {/* Quick Links */}
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-8 gap-4">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-9 gap-4">
+            <button
+              onClick={() => router.push(`/admin/cases?auth=${authParam}`)}
+              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-blue-600 transition cursor-pointer"
+            >
+              <span className="text-2xl">🎯</span>
+              <p className="text-sm mt-2">Cases</p>
+            </button>
             <button
               onClick={() => router.push(`/admin/activity?auth=${authParam}`)}
               className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-green-600 transition cursor-pointer"
