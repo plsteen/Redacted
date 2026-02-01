@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
 
       const { data: mysteryIds } = await adminSupabase
         .from("mysteries")
-        .select("id, code");
+        .select("id, code") as { data: Array<{ id: string; code: string }> | null };
 
       (mysteryIds || []).forEach((m: { id: string; code: string }) => {
         codeToId.set(m.code, m.id);
@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
           .from("purchases")
           .select("mystery_id, mysteries(code)")
           .eq("user_id", user.id)
-          .eq("status", "completed");
+          .eq("status", "completed") as { data: Array<{ mystery_id: string; mysteries: { code: string } | null }> | null };
 
         const typedPurchases = (purchases || []) as Array<{
           mystery_id: string;

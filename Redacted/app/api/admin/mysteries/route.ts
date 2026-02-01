@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const { data: mysteries, error } = await supabase
       .from("mysteries")
       .select("id, code, mystery_locales (title, lang)")
-      .order("code", { ascending: true });
+      .order("code", { ascending: true }) as { data: MysteryRow[] | null; error: any };
 
     if (error) throw error;
 

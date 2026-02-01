@@ -164,10 +164,12 @@ function PlayPageContent() {
   }, [logActivity]);
 
   useEffect(() => {
-    if (lastLoggedTaskIdxRef.current === currentIdx) return;
-    lastLoggedTaskIdxRef.current = currentIdx;
-    logActivity("task_progress", { taskIndex: currentIdx, step: `Task ${currentIdx + 1}` });
-  }, [currentIdx, logActivity]);
+    const completedIdx = completedRevelations.length - 1;
+    if (completedIdx < 0) return;
+    if (lastLoggedTaskIdxRef.current === completedIdx) return;
+    lastLoggedTaskIdxRef.current = completedIdx;
+    logActivity("task_complete", { taskIndex: completedIdx, step: `Task ${completedIdx + 1}` });
+  }, [completedRevelations.length, logActivity]);
 
   useEffect(() => {
     if (isHost) {

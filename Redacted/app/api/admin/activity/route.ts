@@ -103,7 +103,11 @@ export async function GET(request: NextRequest) {
           if (a.metadata) {
             const meta = typeof a.metadata === 'string' ? JSON.parse(a.metadata) : a.metadata;
             caseId = meta.caseId || meta.case_id || null;
-            currentStep = meta.step || meta.taskIndex !== undefined ? `Task ${meta.taskIndex + 1}` : null;
+            if (typeof meta.step === "string" && meta.step.trim().length > 0) {
+              currentStep = meta.step;
+            } else if (Number.isFinite(meta.taskIndex)) {
+              currentStep = `Task ${meta.taskIndex + 1}`;
+            }
           }
           
           // Try to extract from page_url

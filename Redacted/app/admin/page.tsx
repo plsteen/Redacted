@@ -234,6 +234,51 @@ function AdminContent() {
             </div>
           </div>
 
+          {/* Trends & Insights */}
+          <div className="bg-gradient-to-br from-stone-800 to-stone-900 border border-stone-700 rounded-lg p-6 mb-8">
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <span>📈</span> Trends & Insights
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              {stats.sessions24h > 0 && stats.sessions24h >= stats.totalSessions * 0.2 && (
+                <div className="bg-stone-700/50 rounded p-3 border border-blue-500/30">
+                  <p className="text-blue-300 font-medium">📊 High engagement</p>
+                  <p className="text-stone-400 text-xs mt-1">{stats.sessions24h} games in last 24 hours ({Math.round(stats.sessions24h / stats.totalSessions * 100)}% of total)</p>
+                </div>
+              )}
+              {stats.errors24h > 5 && (
+                <div className="bg-stone-700/50 rounded p-3 border border-red-500/30">
+                  <p className="text-red-300 font-medium">⚠️ Error spike</p>
+                  <p className="text-stone-400 text-xs mt-1">{stats.errors24h} errors in last 24h. Check event log for details</p>
+                </div>
+              )}
+              {stats.revenue24h > stats.totalRevenue * 0.15 && (
+                <div className="bg-stone-700/50 rounded p-3 border border-green-500/30">
+                  <p className="text-green-300 font-medium">💰 Strong sales</p>
+                  <p className="text-stone-400 text-xs mt-1">{stats.revenue24h} kr revenue in last 24 hours ({Math.round(stats.revenue24h / stats.totalRevenue * 100)}% of total)</p>
+                </div>
+              )}
+              {stats.completionRate < 60 && (
+                <div className="bg-stone-700/50 rounded p-3 border border-yellow-500/30">
+                  <p className="text-yellow-300 font-medium">🎮 Completion rate</p>
+                  <p className="text-stone-400 text-xs mt-1">{stats.completionRate}% players completing all tasks. Check game difficulty</p>
+                </div>
+              )}
+              {stats.avgRating >= 4.5 && (
+                <div className="bg-stone-700/50 rounded p-3 border border-amber-500/30">
+                  <p className="text-amber-300 font-medium">⭐ Excellent reviews</p>
+                  <p className="text-stone-400 text-xs mt-1">Avg rating {stats.avgRating.toFixed(1)} stars. Players love it!</p>
+                </div>
+              )}
+              {stats.totalSessions > 0 && (
+                <div className="bg-stone-700/50 rounded p-3 border border-stone-600">
+                  <p className="text-stone-300 font-medium">🎯 System health</p>
+                  <p className="text-stone-400 text-xs mt-1">All systems operational. {Math.round(stats.completionRate)}% quality metric</p>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Recent Activity - Two columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Recent Feedback */}
@@ -300,7 +345,7 @@ function AdminContent() {
           </div>
 
           {/* Quick Links */}
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-6 gap-4">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-8 gap-4">
             <button
               onClick={() => router.push(`/admin/activity?auth=${authParam}`)}
               className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-green-600 transition cursor-pointer"
@@ -314,6 +359,13 @@ function AdminContent() {
             >
               <span className="text-2xl">📊</span>
               <p className="text-sm mt-2">Game Stats</p>
+            </button>
+            <button
+              onClick={() => router.push(`/admin/messages?auth=${authParam}`)}
+              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-blue-600 transition cursor-pointer"
+            >
+              <span className="text-2xl">📨</span>
+              <p className="text-sm mt-2">Messages</p>
             </button>
             <button
               onClick={() => router.push(`/admin/feedback?auth=${authParam}`)}
@@ -342,6 +394,13 @@ function AdminContent() {
             >
               <span className="text-2xl">📋</span>
               <p className="text-sm mt-2">Event Log</p>
+            </button>
+            <button
+              onClick={() => router.push(`/admin/users?auth=${authParam}`)}
+              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-purple-600 transition cursor-pointer"
+            >
+              <span className="text-2xl">👤</span>
+              <p className="text-sm mt-2">Admin Users</p>
             </button>
           </div>
         </>

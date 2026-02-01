@@ -15,6 +15,8 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const content = {
     en: {
@@ -79,12 +81,32 @@ export default function ContactPage() {
 
   const t = content[locale];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you'd send this to an API
-    // For now, we'll just show a success message
-    setSubmitted(true);
-    setFormState({ name: "", email: "", subject: "", message: "" });
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formState,
+          locale,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to send message");
+      }
+
+      setSubmitted(true);
+      setFormState({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -190,11 +212,17 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {error && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-[var(--color-gold)] text-black rounded-lg font-semibold hover:bg-[var(--color-gold)]/90 transition"
+                  disabled={isLoading}
+                  className="w-full px-6 py-3 bg-[var(--color-gold)] text-black rounded-lg font-semibold hover:bg-[var(--color-gold)]/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {t.submitButton}
+                  {isLoading ? (locale === "no" ? "Sender..." : "Sending...") : t.submitButton}
                 </button>
               </form>
             )}

@@ -49,20 +49,6 @@ export async function GET(request: NextRequest) {
       mystery_locales?: MysteryLocale[] | null;
     }
 
-    interface AccessCodeRow {
-      id: string;
-      code: string;
-      mystery_id: string;
-      created_by: string;
-      created_at: string;
-      expires_at: string | null;
-      max_uses: number;
-      used_count: number;
-      is_active: boolean;
-      note: string | null;
-      mysteries?: MysteryInfo | null;
-    }
-
     const { data: codes, error } = await supabase
       .from("access_codes")
       .select(`
@@ -83,7 +69,21 @@ export async function GET(request: NextRequest) {
 
     if (error) throw error;
 
-    const normalizedCodes = ((codes || []) as AccessCodeRow[]).map((code) => {
+    interface AccessCodeRow {
+      id: string;
+      code: string;
+      mystery_id: string;
+      created_by: string;
+      created_at: string;
+      expires_at: string | null;
+      max_uses: number;
+      used_count: number;
+      is_active: boolean;
+      note: string | null;
+      mysteries?: MysteryInfo | null;
+    }
+
+    const normalizedCodes = (codes as any[] || []).map((code: AccessCodeRow) => {
       const locales = code.mysteries?.mystery_locales || [];
       const english = locales.find((l) => l.lang === "en") || locales[0];
       const title = english?.title || code.mysteries?.code || "Unknown";
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
         .from("mysteries")
         .select("id")
         .eq("code", resolvedMysteryId)
-        .single();
+        .single() as { data: { id: string } | null; error: any };
 
       if (mysteryError || !mystery) {
         return NextResponse.json(

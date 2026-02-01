@@ -614,8 +614,8 @@ function HomePageContent() {
                       {mystery.title}
                     </button>
                     {mystery.isPurchased && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 text-emerald-200 text-[10px] px-2 py-0.5 font-semibold shrink-0 ml-2">
-                        <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-200">✓</span>
+                      <span className="inline-flex items-center gap-1 rounded-full border border-white/20 text-white/70 text-[10px] px-2 py-0.5 font-semibold shrink-0 ml-2">
+                        <span className="inline-flex items-center justify-center w-4 h-4 rounded-full border border-white/20 text-white/70">✓</span>
                         <span>{locale === "no" ? "Eid" : "Owned"}</span>
                       </span>
                     )}

@@ -12,10 +12,12 @@ const menuItems = [
   { href: "/admin", icon: "🏠", label: "Dashboard", color: "amber" },
   { href: "/admin/activity", icon: "👥", label: "User Activity", color: "green" },
   { href: "/admin/analytics", icon: "📊", label: "Game Stats", color: "amber" },
+  { href: "/admin/messages", icon: "📨", label: "Messages", color: "blue" },
   { href: "/admin/feedback", icon: "💬", label: "Feedback", color: "green" },
   { href: "/admin/purchases", icon: "💰", label: "Purchases", color: "blue" },
   { href: "/admin/codes", icon: "🎟️", label: "Access Codes", color: "purple" },
   { href: "/admin/logs", icon: "📋", label: "Event Log", color: "amber" },
+  { href: "/admin/users", icon: "👤", label: "Admin Users", color: "purple" },
 ];
 
 export function AdminLayout({ children, title }: AdminLayoutProps) {
