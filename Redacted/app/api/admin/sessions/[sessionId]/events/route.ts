@@ -17,16 +17,18 @@ export async function GET(
     const { sessionId } = await params;
     const supabase = getSupabaseAdminClient();
 
-    // Get session progress as events
-    const { data: progress, error } = await supabase
+    // Get session progress as events - try both UUID and text formats
+    let progress = null;
+    let error = null;
+    
+    // First try treating it as UUID
+    ({ data: progress, error } = await supabase
       .from("session_progress")
       .select("*")
       .eq("session_id", sessionId)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false }));
 
-    if (error) throw error;
-
-    // Get activity log for this session
+    // Get activity log for this session (works with any format)
     const { data: activityLog } = await supabase
       .from("user_activity_log")
       .select("*")
