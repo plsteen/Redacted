@@ -7,7 +7,7 @@ import { AdminLayout } from "@/components/Admin/AdminLayout";
 interface Case {
   id: string;
   code: string;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: "easy" | "medium" | "hard" | "very_difficult";
   estimated_duration_minutes: number;
   description: string;
   tags: string[];
@@ -43,12 +43,21 @@ function CasesContent() {
   const [evidence, setEvidence] = useState<EvidencePrompt[]>([]);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingCase, setEditingCase] = useState<Case | null>(null);
+  const [showEvidenceForm, setShowEvidenceForm] = useState(false);
+  const [evidenceFormData, setEvidenceFormData] = useState({
+    evidence_key: "",
+    media_type: "image" as "image" | "video" | "audio" | "document",
+    ai_provider: "openai",
+    ai_model: "",
+    prompt: "",
+    notes: "",
+  });
 
   const [formData, setFormData] = useState({
     code: "",
     title_en: "",
     title_no: "",
-    difficulty: "medium" as "easy" | "medium" | "hard",
+    difficulty: "medium" as "easy" | "medium" | "hard" | "very_difficult",
     estimated_duration_minutes: 30,
     description: "",
     tags: "",
@@ -148,18 +157,85 @@ function CasesContent() {
     }
   };
 
+  const handleAddEvidence = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedCase) return;
+
+    try {
+      const res = await fetch(
+        `/api/admin/evidence?case_id=${selectedCase.id}&auth=${authParam || ""}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            evidence_key: evidenceFormData.evidence_key,
+            media_type: evidenceFormData.media_type,
+            ai_provider: evidenceFormData.ai_provider,
+            ai_model: evidenceFormData.ai_model,
+            prompt: evidenceFormData.prompt,
+            notes: evidenceFormData.notes,
+          }),
+        }
+      );
+
+      if (res.ok) {
+        resetEvidenceForm();
+        fetchEvidence(selectedCase.id);
+      } else {
+        const error = await res.json();
+        alert(`Error: ${error.error || "Failed to add evidence"}`);
+      }
+    } catch (error) {
+      console.error("Failed to add evidence", error);
+      alert("Failed to add evidence");
+    }
+  };
+
+  const handleDeleteEvidence = async (evidenceId: string) => {
+    if (!confirm("Delete this evidence?")) return;
+    if (!selectedCase) return;
+
+    try {
+      const res = await fetch(
+        `/api/admin/evidence/${evidenceId}?auth=${authParam || ""}`,
+        { method: "DELETE" }
+      );
+
+      if (res.ok) {
+        fetchEvidence(selectedCase.id);
+      } else {
+        alert("Failed to delete evidence");
+      }
+    } catch (error) {
+      console.error("Failed to delete evidence", error);
+      alert("Failed to delete evidence");
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       code: "",
       title_en: "",
       title_no: "",
-      difficulty: "medium",
+      difficulty: "medium" as "easy" | "medium" | "hard" | "very_difficult",
       estimated_duration_minutes: 30,
       description: "",
       tags: "",
     });
     setEditingCase(null);
     setShowCreateForm(false);
+  };
+
+  const resetEvidenceForm = () => {
+    setShowEvidenceForm(false);
+    setEvidenceFormData({
+      evidence_key: "",
+      media_type: "image",
+      ai_provider: "openai",
+      ai_model: "",
+      prompt: "",
+      notes: "",
+    });
   };
 
   const startEdit = (caseData: Case) => {
@@ -170,7 +246,7 @@ function CasesContent() {
       code: caseData.code,
       title_en: enTitle,
       title_no: noTitle,
-      difficulty: caseData.difficulty,
+      difficulty: caseData.difficulty as "easy" | "medium" | "hard" | "very_difficult",
       estimated_duration_minutes: caseData.estimated_duration_minutes,
       description: caseData.description,
       tags: caseData.tags.join(", "),
@@ -184,6 +260,7 @@ function CasesContent() {
       easy: "bg-green-500/20 text-green-400 border-green-500/30",
       medium: "bg-amber-500/20 text-amber-400 border-amber-500/30",
       hard: "bg-red-500/20 text-red-400 border-red-500/30",
+      very_difficult: "bg-purple-500/20 text-purple-400 border-purple-500/30",
     };
     return colors[difficulty] || colors.medium;
   };
@@ -282,7 +359,7 @@ function CasesContent() {
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          difficulty: e.target.value as any,
+                          difficulty: e.target.value as "easy" | "medium" | "hard" | "very_difficult",
                         })
                       }
                       className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm"
@@ -290,6 +367,7 @@ function CasesContent() {
                       <option value="easy">Easy</option>
                       <option value="medium">Medium</option>
                       <option value="hard">Hard</option>
+                      <option value="very_difficult">Very Difficult</option>
                     </select>
                   </div>
                 </div>
@@ -472,14 +550,141 @@ function CasesContent() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-white">Evidence & Media</h3>
                   <button
-                    onClick={() => {
-                      // TODO: Open evidence create modal
-                    }}
+                    onClick={() => setShowEvidenceForm(!showEvidenceForm)}
                     className="px-3 py-1.5 bg-blue-600 text-white rounded text-sm font-semibold hover:bg-blue-500 transition"
                   >
-                    + Add Evidence
+                    {showEvidenceForm ? "- Close" : "+ Add Evidence"}
                   </button>
                 </div>
+
+                {showEvidenceForm && (
+                  <div className="bg-stone-900 border border-blue-600/30 rounded p-4 mb-4">
+                    <form onSubmit={handleAddEvidence} className="space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-stone-400 mb-1">Evidence Key</label>
+                          <input
+                            type="text"
+                            value={evidenceFormData.evidence_key}
+                            onChange={(e) =>
+                              setEvidenceFormData({
+                                ...evidenceFormData,
+                                evidence_key: e.target.value,
+                              })
+                            }
+                            placeholder="e.g., evidence_1, letter_from_victim"
+                            required
+                            className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-stone-400 mb-1">Media Type</label>
+                          <select
+                            value={evidenceFormData.media_type}
+                            onChange={(e) =>
+                              setEvidenceFormData({
+                                ...evidenceFormData,
+                                media_type: e.target.value as "image" | "video" | "audio" | "document",
+                              })
+                            }
+                            className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm"
+                          >
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                            <option value="audio">Audio</option>
+                            <option value="document">Document</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs text-stone-400 mb-1">AI Provider</label>
+                          <select
+                            value={evidenceFormData.ai_provider}
+                            onChange={(e) =>
+                              setEvidenceFormData({
+                                ...evidenceFormData,
+                                ai_provider: e.target.value,
+                              })
+                            }
+                            className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm"
+                          >
+                            <option value="openai">OpenAI</option>
+                            <option value="midjourney">Midjourney</option>
+                            <option value="stable-diffusion">Stable Diffusion</option>
+                            <option value="elevenlabs">ElevenLabs</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-stone-400 mb-1">AI Model</label>
+                          <input
+                            type="text"
+                            value={evidenceFormData.ai_model}
+                            onChange={(e) =>
+                              setEvidenceFormData({
+                                ...evidenceFormData,
+                                ai_model: e.target.value,
+                              })
+                            }
+                            placeholder="e.g., dall-e-3, gpt-4-vision"
+                            className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs text-stone-400 mb-1">Prompt (for AI generation)</label>
+                        <textarea
+                          value={evidenceFormData.prompt}
+                          onChange={(e) =>
+                            setEvidenceFormData({
+                              ...evidenceFormData,
+                              prompt: e.target.value,
+                            })
+                          }
+                          placeholder="The exact prompt used to generate this evidence..."
+                          required
+                          rows={3}
+                          className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm resize-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs text-stone-400 mb-1">Notes (optional)</label>
+                        <input
+                          type="text"
+                          value={evidenceFormData.notes}
+                          onChange={(e) =>
+                            setEvidenceFormData({
+                              ...evidenceFormData,
+                              notes: e.target.value,
+                            })
+                          }
+                          placeholder="Additional notes about this evidence..."
+                          className="w-full px-3 py-2 bg-stone-700 border border-stone-600 rounded text-white text-sm"
+                        />
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          type="submit"
+                          className="flex-1 px-3 py-2 bg-blue-600 text-white rounded font-semibold hover:bg-blue-500 transition text-sm"
+                        >
+                          Save Evidence
+                        </button>
+                        <button
+                          type="button"
+                          onClick={resetEvidenceForm}
+                          className="flex-1 px-3 py-2 border border-stone-600 text-white rounded hover:bg-stone-700 transition text-sm"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
 
                 {evidence.length === 0 ? (
                   <p className="text-center py-8 text-stone-500">No evidence yet</p>
@@ -499,9 +704,17 @@ function CasesContent() {
                               {ev.media_type} • v{ev.prompt_version}
                             </p>
                           </div>
-                          <span className="px-2 py-0.5 rounded text-xs bg-stone-800 text-stone-300">
-                            {ev.ai_provider}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 rounded text-xs bg-stone-800 text-stone-300">
+                              {ev.ai_provider}
+                            </span>
+                            <button
+                              onClick={() => handleDeleteEvidence(ev.id)}
+                              className="px-2 py-0.5 rounded text-xs border border-red-500/30 text-red-400 hover:bg-red-500/10 transition"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                         <p className="text-xs text-stone-300 mt-2 p-2 bg-stone-950 rounded border border-stone-800">
                           <span className="text-stone-500">Prompt:</span> {ev.prompt}

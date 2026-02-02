@@ -2,7 +2,7 @@
 -- Add metadata fields to mysteries table and create evidence prompts tracking
 
 -- Add metadata columns to mysteries table
-ALTER TABLE mysteries ADD COLUMN IF NOT EXISTS difficulty TEXT DEFAULT 'medium' CHECK (difficulty IN ('easy', 'medium', 'hard'));
+ALTER TABLE mysteries ADD COLUMN IF NOT EXISTS difficulty TEXT DEFAULT 'medium' CHECK (difficulty IN ('easy', 'medium', 'hard', 'very_difficult'));
 ALTER TABLE mysteries ADD COLUMN IF NOT EXISTS estimated_duration_minutes INTEGER DEFAULT 30;
 ALTER TABLE mysteries ADD COLUMN IF NOT EXISTS description TEXT;
 ALTER TABLE mysteries ADD COLUMN IF NOT EXISTS tags TEXT[] DEFAULT ARRAY[]::TEXT[];

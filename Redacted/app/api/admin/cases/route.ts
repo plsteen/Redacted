@@ -4,7 +4,7 @@ import { getSupabaseAdminClient } from "@/lib/supabaseAdmin";
 interface CaseMetadata {
   id: string;
   code: string;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: "easy" | "medium" | "hard" | "very_difficult";
   estimated_duration_minutes: number;
   description: string;
   tags: string[];
@@ -99,11 +99,11 @@ export async function POST(request: NextRequest) {
         description,
         tags,
         is_published: false,
-      })
+      } as any)
       .select()
-      .single();
+      .single() as any;
 
-    if (mysteryError) throw mysteryError;
+    if (mysteryError || !mystery) throw mysteryError || new Error("Failed to create mystery");
 
     // Add locales
     const { error: localeError } = await supabase

@@ -63,6 +63,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const authParam = searchParams.get("auth");
+  const caseIdFromParams = searchParams.get("case_id");
 
   if (authParam !== "redacted2026") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const {
-      case_id,
+      case_id: caseIdFromBody,
       evidence_key,
       media_type,
       ai_provider = "openai",
@@ -81,6 +82,9 @@ export async function POST(request: NextRequest) {
       notes,
       metadata = {},
     } = body;
+
+    // Use case_id from URL params or body
+    const case_id = caseIdFromParams || caseIdFromBody;
 
     if (!case_id || !evidence_key || !media_type || !prompt) {
       return NextResponse.json(
@@ -100,7 +104,7 @@ export async function POST(request: NextRequest) {
       .select("id, prompt_version")
       .eq("case_id", case_id)
       .eq("evidence_key", evidence_key)
-      .single();
+      .single() as any;
 
     if (existing) {
       // Update existing - increment version
@@ -119,7 +123,7 @@ export async function POST(request: NextRequest) {
         })
         .eq("id", existing.id)
         .select()
-        .single();
+        .single() as any;
 
       if (error) throw error;
       return NextResponse.json({ evidence: data });
@@ -141,7 +145,7 @@ export async function POST(request: NextRequest) {
           generation_timestamp: new Date().toISOString(),
         })
         .select()
-        .single();
+        .single() as any;
 
       if (error) throw error;
       return NextResponse.json({ evidence: data }, { status: 201 });
