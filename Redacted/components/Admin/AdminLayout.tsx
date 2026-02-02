@@ -10,6 +10,7 @@ interface AdminLayoutProps {
 
 const menuItems = [
   { href: "/admin", icon: "🏠", label: "Dashboard", color: "amber" },
+  { href: "/admin/sessions", icon: "🎮", label: "Live Sessions", color: "green" },
   { href: "/admin/cases", icon: "🎯", label: "Cases", color: "blue" },
   { href: "/admin/activity", icon: "👥", label: "User Activity", color: "green" },
   { href: "/admin/analytics", icon: "📊", label: "Game Stats", color: "amber" },
@@ -19,6 +20,7 @@ const menuItems = [
   { href: "/admin/codes", icon: "🎟️", label: "Access Codes", color: "purple" },
   { href: "/admin/logs", icon: "📋", label: "Event Log", color: "amber" },
   { href: "/admin/users", icon: "👤", label: "Admin Users", color: "purple" },
+  { href: "/admin/health", icon: "💚", label: "System Health", color: "green" },
 ];
 
 export function AdminLayout({ children, title }: AdminLayoutProps) {
