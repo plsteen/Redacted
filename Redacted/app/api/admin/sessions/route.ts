@@ -69,28 +69,38 @@ export async function GET(request: NextRequest) {
       .gte("created_at", last24h.toISOString())
       .order("created_at", { ascending: false }) as { data: ActivityRow[] | null };
 
-    // Build a map of active sessions from activity log
+    // Build a map of active sessions from activity log, counting unique users
     const activeSessions = new Map<string, {
       sessionId: string;
       lastActivity: string;
-      playerCount: number;
+      users: Set<string>;
       caseCode: string;
     }>();
 
     (activityData || []).forEach((activity) => {
-      if (activity.session_id && !activeSessions.has(activity.session_id)) {
-        const caseCode = (activity.metadata as any)?.caseCode || 
-                         (activity.metadata as any)?.case_id || 
-                         "unknown";
+      if (!activity.session_id) return;
+      
+      const userId = (activity.metadata as any)?.userId || 
+                     (activity.metadata as any)?.user_id || 
+                     "anonymous";
+      const caseCode = (activity.metadata as any)?.caseCode || 
+                       (activity.metadata as any)?.case_id || 
+                       "unknown";
+
+      if (!activeSessions.has(activity.session_id)) {
         activeSessions.set(activity.session_id, {
           sessionId: activity.session_id,
           lastActivity: activity.created_at,
-          playerCount: 1,
+          users: new Set([userId]),
           caseCode: String(caseCode),
         });
-      } else if (activity.session_id && activeSessions.has(activity.session_id)) {
+      } else {
         const session = activeSessions.get(activity.session_id)!;
-        session.playerCount += 1;
+        session.users.add(userId);
+        // Update if this activity is more recent
+        if (activity.created_at > session.lastActivity) {
+          session.lastActivity = activity.created_at;
+        }
       }
     });
 
@@ -118,7 +128,7 @@ export async function GET(request: NextRequest) {
           language: "en",
           status: "active",
           created_at: actSession.lastActivity,
-          player_count: actSession.playerCount,
+          player_count: actSession.users.size,
           current_task: null,
           mystery_title: actSession.caseCode
         });
