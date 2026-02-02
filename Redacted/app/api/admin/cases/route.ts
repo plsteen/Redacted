@@ -9,7 +9,7 @@ interface CaseMetadata {
   description: string;
   tags: string[];
   is_published: boolean;
-  mystery_locales: Array<{ title: string; lang: string }>;
+  mystery_locales: Array<{ id: string; title: string; tagline: string | null; description: string | null; lang: string }>;
   created_at: string;
   updated_at: string;
 }
@@ -47,7 +47,10 @@ export async function GET(request: NextRequest) {
       error: any;
     };
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase error fetching cases:", error);
+      throw error;
+    }
 
     return NextResponse.json({ cases: cases || [] });
   } catch (error) {
