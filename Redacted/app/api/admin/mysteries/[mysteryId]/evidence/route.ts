@@ -4,7 +4,7 @@ import { getSupabaseAdminClient } from "@/lib/supabaseAdmin";
 // GET - List evidence for a mystery
 export async function GET(
   request: NextRequest,
-  { params }: { params: { mysteryId: string } }
+  { params }: { params: Promise<{ mysteryId: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const authParam = searchParams.get("auth");
@@ -14,7 +14,7 @@ export async function GET(
   }
 
   try {
-    const { mysteryId } = params;
+    const { mysteryId } = await params;
     const supabase = getSupabaseAdminClient();
 
     const { data: evidence, error } = await supabase
@@ -45,7 +45,7 @@ export async function GET(
 // POST - Create new evidence
 export async function POST(
   request: NextRequest,
-  { params }: { params: { mysteryId: string } }
+  { params }: { params: Promise<{ mysteryId: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const authParam = searchParams.get("auth");
@@ -55,7 +55,7 @@ export async function POST(
   }
 
   try {
-    const { mysteryId } = params;
+    const { mysteryId } = await params;
     const body = await request.json();
     const {
       type,

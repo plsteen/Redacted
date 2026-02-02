@@ -661,24 +661,40 @@ function CasesContent() {
                   )}
                 </div>
 
-                {/* Show localized content */}
-                {selectedCase.mystery_locales.map((locale) => (
-                  <div key={locale.id} className="mt-4 pt-4 border-t border-stone-700">
-                    <h4 className="text-sm font-semibold text-white mb-2">
-                      {locale.lang === "en" ? "English" : "Norwegian"}
-                    </h4>
-                    {locale.tagline && (
-                      <p className="text-xs text-stone-300 mb-2">
-                        <span className="text-stone-500">Tagline:</span> {locale.tagline}
-                      </p>
-                    )}
-                    {locale.description && (
-                      <p className="text-xs text-stone-300">
-                        <span className="text-stone-500">Description:</span> {locale.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
+                {/* Show localized content - Preview for Admin */}
+                <div className="mt-6 pt-6 border-t border-stone-700">
+                  <h3 className="text-base font-semibold text-white mb-4">What Users See</h3>
+                  
+                  {selectedCase.mystery_locales.map((locale) => (
+                    <div key={locale.id} className="mb-6 last:mb-0">
+                      <h4 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-3">
+                        {locale.lang === "en" ? "🇬🇧 English" : "🇳🇴 Norwegian"}
+                      </h4>
+                      
+                      {/* Case Intro Preview */}
+                      <div className="bg-stone-900/50 border border-stone-700/50 rounded p-4 space-y-3">
+                        <div>
+                          <p className="text-xs text-stone-500 font-semibold uppercase tracking-widest mb-1">Title</p>
+                          <p className="text-white font-serif text-lg">{locale.title || "—"}</p>
+                        </div>
+                        
+                        {locale.tagline && (
+                          <div className="pt-3 border-t border-stone-700/50">
+                            <p className="text-xs text-stone-500 font-semibold uppercase tracking-widest mb-1">Tagline</p>
+                            <p className="text-stone-200 text-sm italic">{locale.tagline}</p>
+                          </div>
+                        )}
+                        
+                        {locale.description && (
+                          <div className="pt-3 border-t border-stone-700/50">
+                            <p className="text-xs text-stone-500 font-semibold uppercase tracking-widest mb-2">Description</p>
+                            <p className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap">{locale.description}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Evidence Section */}
@@ -871,58 +887,66 @@ function CasesContent() {
                 {evidence.length === 0 ? (
                   <p className="text-center py-8 text-stone-500">No evidence yet</p>
                 ) : (
-                  <div className="space-y-3">
+                  <div className="space-y-4">
+                    <div className="text-xs text-stone-400 mb-3">
+                      {evidence.length} evidence item{evidence.length !== 1 ? "s" : ""}
+                    </div>
                     {evidence.map((ev) => {
                       const enLocale = ev.evidence_locales.find((l) => l.lang === "en");
                       const noLocale = ev.evidence_locales.find((l) => l.lang === "no");
                       return (
                         <div
                           key={ev.id}
-                          className="bg-stone-900 border border-stone-700 rounded p-4"
+                          className="bg-stone-900/50 border border-stone-700 rounded p-4 space-y-3"
                         >
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <p className="font-medium text-white text-sm">
-                                {enLocale?.title || ev.type}
-                              </p>
-                              <p className="text-xs text-stone-400">
-                                Type: {ev.type} | Path: {ev.storage_path}
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <span className="px-2 py-0.5 rounded text-xs bg-stone-700 text-stone-200 font-medium uppercase">
+                                  {ev.type}
+                                </span>
+                                {ev.has_transcript && (
+                                  <span className="px-2 py-0.5 rounded text-xs bg-green-600/20 text-green-300 border border-green-600/30">
+                                    Has Transcript
+                                  </span>
+                                )}
+                              </div>
+                              {enLocale && (
+                                <div className="mb-2">
+                                  <p className="text-xs text-stone-400 font-semibold uppercase tracking-widest mb-1">🇬🇧 English</p>
+                                  <p className="text-white font-semibold text-sm">{enLocale.title}</p>
+                                  {enLocale.content && (
+                                    <p className="text-stone-300 text-xs mt-1 leading-relaxed whitespace-pre-wrap">{enLocale.content}</p>
+                                  )}
+                                </div>
+                              )}
+                              {noLocale && (
+                                <div>
+                                  <p className="text-xs text-stone-400 font-semibold uppercase tracking-widest mb-1">🇳🇴 Norwegian</p>
+                                  <p className="text-white font-semibold text-sm">{noLocale.title}</p>
+                                  {noLocale.content && (
+                                    <p className="text-stone-300 text-xs mt-1 leading-relaxed whitespace-pre-wrap">{noLocale.content}</p>
+                                  )}
+                                </div>
+                              )}
+                              <p className="text-xs text-stone-500 mt-2 pt-2 border-t border-stone-700">
+                                📁 {ev.storage_path}
                               </p>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 ml-3">
                               <button
                                 onClick={() => startEditEvidence(ev)}
-                                className="px-2 py-0.5 rounded text-xs border border-stone-600 text-white hover:bg-stone-700 transition"
+                                className="px-2 py-1 rounded text-xs border border-stone-600 text-white hover:bg-stone-700 transition"
                               >
                                 Edit
                               </button>
                               <button
                                 onClick={() => handleDeleteEvidence(ev.id)}
-                                className="px-2 py-0.5 rounded text-xs border border-red-500/30 text-red-400 hover:bg-red-500/10 transition"
+                                className="px-2 py-1 rounded text-xs border border-red-500/30 text-red-400 hover:bg-red-500/10 transition"
                               >
                                 Delete
                               </button>
                             </div>
-                          </div>
-                          <div className="mt-2 space-y-2">
-                            {enLocale && (
-                              <div className="text-xs">
-                                <span className="text-stone-500">EN:</span>{" "}
-                                <span className="text-stone-300">{enLocale.title}</span>
-                                {enLocale.content && (
-                                  <p className="text-stone-400 mt-1">{enLocale.content}</p>
-                                )}
-                              </div>
-                            )}
-                            {noLocale && (
-                              <div className="text-xs">
-                                <span className="text-stone-500">NO:</span>{" "}
-                                <span className="text-stone-300">{noLocale.title}</span>
-                                {noLocale.content && (
-                                  <p className="text-stone-400 mt-1">{noLocale.content}</p>
-                                )}
-                              </div>
-                            )}
                           </div>
                         </div>
                       );

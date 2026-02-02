@@ -4,7 +4,7 @@ import { getSupabaseAdminClient } from "@/lib/supabaseAdmin";
 // PATCH - Update evidence
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { mysteryId: string; evidenceId: string } }
+  { params }: { params: Promise<{ mysteryId: string; evidenceId: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const authParam = searchParams.get("auth");
@@ -14,7 +14,7 @@ export async function PATCH(
   }
 
   try {
-    const { evidenceId } = params;
+    const { evidenceId } = await params;
     const body = await request.json();
     const {
       type,
@@ -84,7 +84,7 @@ export async function PATCH(
 // DELETE - Delete evidence
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { mysteryId: string; evidenceId: string } }
+  { params }: { params: Promise<{ mysteryId: string; evidenceId: string }> }
 ) {
   const { searchParams } = new URL(request.url);
   const authParam = searchParams.get("auth");
@@ -94,7 +94,7 @@ export async function DELETE(
   }
 
   try {
-    const { evidenceId } = params;
+    const { evidenceId } = await params;
     const supabase = getSupabaseAdminClient();
 
     // Delete evidence (locales will cascade)
