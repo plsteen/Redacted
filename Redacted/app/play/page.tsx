@@ -135,40 +135,14 @@ function PlayPageContent() {
     fetchUserId();
   }, []);
 
-  // Load autosaved progress for host
+  // Load autosaved progress to avoid restarting on refresh/language change
   useEffect(() => {
-    if (!playerId || hasLoadedAutosaveRef.current) return;
+    if (hasLoadedAutosaveRef.current) return;
     const saved = loadGameState();
     if (!saved) return;
     if (saved.sessionCode !== sessionCode || saved.caseId !== "silent-harbour") return;
 
     hasLoadedAutosaveRef.current = true;
-
-    if (!isHost) return;
-
-    const resumeText = locale === "no"
-      ? "Fant lagret spill. Vil du fortsette der dere var?"
-      : "Found a saved game. Do you want to resume where you left off?";
-    const shouldResume = window.confirm(resumeText);
-
-    if (!shouldResume) {
-      clearGameState();
-      setCurrentIdx(0);
-      setCompletedRevelations([]);
-      setHintUsed(false);
-      setHintsUsed(0);
-      setShowCompletion(false);
-      setShowIntro(true);
-      setShowNameInput(false);
-      setStartTime(null);
-      setTimeElapsed(0);
-      setFinalTimeElapsed(null);
-      setTaskCompletionTimes([]);
-      if (channelRef.current) {
-        emitSessionEvent(channelRef.current, "game.reset", {});
-      }
-      return;
-    }
 
     const resolved = tasks.filter((task) => saved.completedTaskIds.includes(task.id));
     setCompletedRevelations(resolved);
@@ -191,7 +165,7 @@ function PlayPageContent() {
       setShowCompletion(true);
       setFinalTimeElapsed(saved.timeElapsedSeconds ?? null);
     }
-  }, [playerId, sessionCode, isHost, tasks, locale]);
+  }, [sessionCode, tasks, locale]);
 
   const logActivity = useCallback(
     async (action: string, metadata: Record<string, unknown> = {}) => {
