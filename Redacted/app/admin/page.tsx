@@ -345,7 +345,7 @@ function AdminContent() {
           </div>
 
           {/* Quick Links */}
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-9 gap-4">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             <button
               onClick={() => router.push(`/admin/cases?auth=${authParam}`)}
               className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-blue-600 transition cursor-pointer"
@@ -354,18 +354,25 @@ function AdminContent() {
               <p className="text-sm mt-2">Cases</p>
             </button>
             <button
+              onClick={() => router.push(`/admin/case-analytics?auth=${authParam}`)}
+              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-amber-600 transition cursor-pointer"
+            >
+              <span className="text-2xl">📈</span>
+              <p className="text-sm mt-2">Case Analytics</p>
+            </button>
+            <button
+              onClick={() => router.push(`/admin/sessions?auth=${authParam}`)}
+              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-green-600 transition cursor-pointer"
+            >
+              <span className="text-2xl">🎮</span>
+              <p className="text-sm mt-2">Live Sessions</p>
+            </button>
+            <button
               onClick={() => router.push(`/admin/activity?auth=${authParam}`)}
               className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-green-600 transition cursor-pointer"
             >
               <span className="text-2xl">👥</span>
               <p className="text-sm mt-2">User Activity</p>
-            </button>
-            <button
-              onClick={() => router.push(`/admin/analytics?auth=${authParam}`)}
-              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-amber-600 transition cursor-pointer"
-            >
-              <span className="text-2xl">📊</span>
-              <p className="text-sm mt-2">Game Stats</p>
             </button>
             <button
               onClick={() => router.push(`/admin/messages?auth=${authParam}`)}
@@ -396,18 +403,18 @@ function AdminContent() {
               <p className="text-sm mt-2">Access Codes</p>
             </button>
             <button
+              onClick={() => router.push(`/admin/debug?auth=${authParam}`)}
+              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-purple-600 transition cursor-pointer"
+            >
+              <span className="text-2xl">🔧</span>
+              <p className="text-sm mt-2">Debug Tools</p>
+            </button>
+            <button
               onClick={() => router.push(`/admin/logs?auth=${authParam}`)}
               className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-orange-600 transition cursor-pointer"
             >
               <span className="text-2xl">📋</span>
               <p className="text-sm mt-2">Event Log</p>
-            </button>
-            <button
-              onClick={() => router.push(`/admin/users?auth=${authParam}`)}
-              className="bg-stone-800 border border-stone-700 rounded-lg p-4 text-center hover:border-purple-600 transition cursor-pointer"
-            >
-              <span className="text-2xl">👤</span>
-              <p className="text-sm mt-2">Admin Users</p>
             </button>
           </div>
         </>
