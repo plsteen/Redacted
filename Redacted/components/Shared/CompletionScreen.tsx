@@ -58,11 +58,35 @@ export default function CompletionScreen({
   detectives,
 }: CompletionScreenProps) {
   const [rating, setRating] = useState<number>(0);
+  const [hoverRating, setHoverRating] = useState<number>(0);
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [analyticsSubmitted, setAnalyticsSubmitted] = useState(false);
+  const [avgStats, setAvgStats] = useState<{ avgTime: number; avgHints: number } | null>(null);
+
+  // Fetch average stats
+  useEffect(() => {
+    const fetchAvgStats = async () => {
+      try {
+        const supabase = getSupabaseBrowserClient();
+        const { data } = await supabase
+          .from('session_analytics')
+          .select('total_time_seconds, hints_used')
+          .eq('case_id', 'silent-harbour');
+        
+        if (data && data.length > 0) {
+          const avgTime = Math.floor(data.reduce((sum, s) => sum + s.total_time_seconds, 0) / data.length);
+          const avgHints = Math.floor(data.reduce((sum, s) => sum + s.hints_used, 0) / data.length);
+          setAvgStats({ avgTime, avgHints });
+        }
+      } catch (error) {
+        console.error('Failed to fetch avg stats:', error);
+      }
+    };
+    fetchAvgStats();
+  }, []);
 
   // Submit analytics data automatically when component mounts
   useEffect(() => {
@@ -169,7 +193,8 @@ export default function CompletionScreen({
 
   const caseTitle = locale === 'no' ? 'Silent Harbour (demo)' : 'Silent Harbour (demo)';
   const labels = {
-    solved: locale === 'no' ? 'LÖST' : 'SOLVED',
+    solved: locale === 'no' ? 'GRATULERER!' : 'CONGRATULATIONS!',
+    subtitle: locale === 'no' ? 'Gjengingspersonen er tatt' : 'The perpetrator has been caught',
     timeSpent: locale === 'no' ? 'Tid brukt' : 'Time spent',
     hintsUsed: locale === 'no' ? 'Hint brukt' : 'Hints used',
     investigators: locale === 'no' ? 'Etterforsker' : 'Investigators',
@@ -195,8 +220,8 @@ export default function CompletionScreen({
         <div className="text-center mb-8">
           <div className="inline-block text-6xl mb-3">🎯</div>
           <h1 className="text-3xl font-bold text-[#e8b84d] mb-2">{labels.solved}</h1>
-          <p className="text-sm text-[#d0d0d0]">{caseTitle}</p>
-          <p className="text-xs text-[#888888] uppercase tracking-widest mt-2">{labels.excellent}</p>
+          <p className="text-lg text-[#d0d0d0] font-semibold">{labels.subtitle}</p>
+          <p className="text-sm text-[#888888] mt-2">{caseTitle}</p>
         </div>
 
         {/* Divider */}
@@ -208,24 +233,18 @@ export default function CompletionScreen({
           <div className="rounded-md bg-[#14161a]/50 border border-[#e8b84d]/20 p-4 text-center">
             <p className="text-xs text-[#888888] uppercase tracking-wide mb-1">⏱️ {labels.timeSpent}</p>
             <p className="text-lg font-bold text-[#e8b84d]">{formatTime(Math.max(timeElapsed, 0))}</p>
+            {avgStats && (
+              <p className="text-xs text-[#888888] mt-1">Snitt: {formatTime(avgStats.avgTime)}</p>
+            )}
           </div>
 
           {/* Hints */}
           <div className="rounded-md bg-[#14161a]/50 border border-[#e8b84d]/20 p-4 text-center">
             <p className="text-xs text-[#888888] uppercase tracking-wide mb-1">💡 {labels.hintsUsed}</p>
             <p className="text-lg font-bold text-[#e8b84d]">{hintsUsed}</p>
-          </div>
-
-          {/* Tasks */}
-          <div className="rounded-md bg-[#14161a]/50 border border-[#e8b84d]/20 p-4 text-center">
-            <p className="text-xs text-[#888888] uppercase tracking-wide mb-1">✓ {labels.allTasks}</p>
-            <p className="text-lg font-bold text-[#e8b84d]">{completedRevelations.length}/{tasks.length}</p>
-          </div>
-
-          {/* Culprit */}
-          <div className="rounded-md bg-[#14161a]/50 border border-[#e8b84d]/20 p-4 text-center">
-            <p className="text-xs text-[#888888] uppercase tracking-wide mb-1">🚨 {labels.suspect}</p>
-            <p className="text-lg font-bold text-[#e8b84d]">{labels.culprit}</p>
+            {avgStats && (
+              <p className="text-xs text-[#888888] mt-1">Snitt: {avgStats.avgHints}</p>
+            )}
           </div>
         </div>
 
@@ -267,7 +286,7 @@ export default function CompletionScreen({
         <div className="h-px bg-gradient-to-r from-transparent via-[#e8b84d]/30 to-transparent mb-8" />
 
         {/* Feedback Section */}
-        {!showFeedback ? (
+        {!showFeedback && !submitted ? (
           <div className="text-center mb-8">
             <button
               onClick={() => setShowFeedback(true)}
@@ -276,26 +295,32 @@ export default function CompletionScreen({
               {labels.giveFeedback}
             </button>
           </div>
+        ) : submitted ? (
+          <div className="rounded-md bg-[#14161a]/50 border border-[#e8b84d]/20 p-5 mb-8">
+            <p className="text-center text-[#e8b84d] text-sm">✓ {labels.thankYou}</p>
+          </div>
         ) : (
           <div className="rounded-md bg-[#14161a]/50 border border-[#e8b84d]/20 p-5 mb-8">
-            {!submitted ? (
-              <>
-                <p className="text-xs text-[#888888] uppercase tracking-wide mb-4">{labels.rateCase}</p>
-                
-                {/* Star Rating */}
-                <div className="flex justify-center gap-2 mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      onClick={() => setRating(star)}
-                      className="text-3xl transition-all hover:scale-110"
-                    >
-                      <span className={star <= rating ? 'text-[#e8b84d]' : 'text-[#888888]/30'}>
-                        ★
-                      </span>
-                    </button>
-                  ))}
-                </div>
+            <p className="text-xs text-[#888888] uppercase tracking-wide mb-4">{labels.rateCase}</p>
+            
+            {/* Star Rating with hover */}
+            <div 
+              className="flex justify-center gap-2 mb-4"
+              onMouseLeave={() => setHoverRating(0)}
+            >
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoverRating(star)}
+                  className="text-3xl transition-all hover:scale-110"
+                >
+                  <span className={star <= (hoverRating || rating) ? 'text-[#e8b84d]' : 'text-[#888888]/30'}>
+                    ★
+                  </span>
+                </button>
+              ))}
+            </div>
 
                 {/* Comment */}
                 <textarea
@@ -306,26 +331,22 @@ export default function CompletionScreen({
                   rows={3}
                 />
 
-                {/* Submit */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleSubmitFeedback}
-                    disabled={rating === 0 || submitting}
-                    className="flex-1 px-4 py-2 bg-[#e8b84d] text-[#0a0b0e] font-semibold text-sm rounded hover:bg-[#f5c96a] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {submitting ? '...' : labels.submit}
-                  </button>
-                  <button
-                    onClick={() => setShowFeedback(false)}
-                    className="px-4 py-2 text-[#888888] text-sm hover:text-white transition-colors"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p className="text-center text-[#e8b84d] text-sm">✓ {labels.thankYou}</p>
-            )}
+            {/* Submit */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleSubmitFeedback}
+                disabled={rating === 0 || submitting}
+                className="flex-1 px-4 py-2 bg-[#e8b84d] text-[#0a0b0e] font-semibold text-sm rounded hover:bg-[#f5c96a] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitting ? '...' : labels.submit}
+              </button>
+              <button
+                onClick={() => setShowFeedback(false)}
+                className="px-4 py-2 text-[#888888] text-sm hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         )}
 
