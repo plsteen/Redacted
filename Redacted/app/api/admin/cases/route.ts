@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
         description,
         tags,
         is_published,
-        mystery_locales(title, lang),
+        mystery_locales(id, title, tagline, description, lang),
         created_at,
         updated_at
       `
@@ -145,6 +145,10 @@ export async function PATCH(request: NextRequest) {
       is_published,
       title_en,
       title_no,
+      tagline_en,
+      tagline_no,
+      description_en,
+      description_no,
     } = body;
 
     if (!id) {
@@ -170,19 +174,30 @@ export async function PATCH(request: NextRequest) {
 
     if (updateError) throw updateError;
 
-    // Update locales if provided
-    if (title_en) {
+    // Update EN locale
+    if (title_en || tagline_en || description_en) {
+      const enUpdates: any = {};
+      if (title_en) enUpdates.title = title_en;
+      if (tagline_en !== undefined) enUpdates.tagline = tagline_en;
+      if (description_en !== undefined) enUpdates.description = description_en;
+      
       await supabase
         .from("mystery_locales")
-        .update({ title: title_en })
+        .update(enUpdates)
         .eq("mystery_id", id)
         .eq("lang", "en");
     }
 
-    if (title_no) {
+    // Update NO locale
+    if (title_no || tagline_no || description_no) {
+      const noUpdates: any = {};
+      if (title_no) noUpdates.title = title_no;
+      if (tagline_no !== undefined) noUpdates.tagline = tagline_no;
+      if (description_no !== undefined) noUpdates.description = description_no;
+      
       await supabase
         .from("mystery_locales")
-        .update({ title: title_no })
+        .update(noUpdates)
         .eq("mystery_id", id)
         .eq("lang", "no");
     }
