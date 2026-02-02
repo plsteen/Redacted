@@ -121,28 +121,7 @@ function SessionsContent() {
     };
   }, [selectedSession]);
 
-  const handleStopSession = async (sessionId: string) => {
-    if (!confirm("Are you sure you want to stop this session? Players will be disconnected.")) {
-      return;
-    }
 
-    try {
-      const res = await fetch(`/api/admin/sessions/${sessionId}/stop?auth=${authParam}`, {
-        method: "POST",
-      });
-      if (!res.ok) throw new Error("Failed to stop session");
-      
-      // Refresh list
-      await fetchSessions();
-      if (selectedSession?.id === sessionId) {
-        setSelectedSession(null);
-      }
-      alert("Session stopped");
-    } catch (error) {
-      console.error("Failed to stop session:", error);
-      alert("Failed to stop session");
-    }
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -328,14 +307,6 @@ function SessionsContent() {
                       Started {formatTime(selectedSession.created_at)}
                     </p>
                   </div>
-                  {selectedSession.status === "active" && (
-                    <button
-                      onClick={() => handleStopSession(selectedSession.id)}
-                      className="px-3 py-1.5 bg-red-600/20 border border-red-500/30 text-red-400 rounded text-sm hover:bg-red-600/30 transition"
-                    >
-                      🛑 Stop Session
-                    </button>
-                  )}
                 </div>
 
                 {/* Session Info */}
