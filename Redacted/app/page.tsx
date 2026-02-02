@@ -852,7 +852,7 @@ function HomePageContent() {
                   }}
                   className="flex-1 py-3 bg-[var(--color-gold)] text-black rounded-lg font-semibold hover:bg-[var(--color-gold)]/90 transition cursor-pointer"
                 >
-                  {txt.playNow} →
+                  {hasProgressForCase(selectedMystery) ? txt.continue : txt.playNow} →
                 </button>
               ) : (
                 <button
@@ -872,6 +872,17 @@ function HomePageContent() {
                 {txt.close}
               </button>
             </div>
+            {hasProgressForCase(selectedMystery) && (selectedMystery.isPurchased || selectedMystery.priceNok === 0) && (
+              <button
+                onClick={() => {
+                  setSelectedMystery(null);
+                  handleStartOver(selectedMystery);
+                }}
+                className="mt-2 text-xs text-[var(--color-muted)] hover:text-white underline cursor-pointer"
+              >
+                {txt.startOver}
+              </button>
+            )}
           </div>
         </div>
       )}
