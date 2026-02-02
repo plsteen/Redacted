@@ -11,3 +11,11 @@ Sun Feb  1 21:44:09 CET 2026: Changes detected, syncing to GitHub...
  create mode 100644 Redacted/app/api/admin/mysteries/route.ts
 Sun Feb  1 21:44:11 CET 2026: Sync complete
 Sun Feb  1 23:47:38 CET 2026: Changes detected, syncing to GitHub...
+[main eb528ec] Auto-sync: 2026-02-01 23:47:38
+ 7 files changed, 1029 insertions(+), 1 deletion(-)
+ create mode 100644 Redacted/app/admin/cases/page.tsx
+ create mode 100644 Redacted/app/api/admin/cases/route.ts
+ create mode 100644 Redacted/app/api/admin/evidence/route.ts
+ create mode 100644 Redacted/scripts/migrations/008_case_metadata.sql
+Sun Feb  1 23:47:39 CET 2026: Sync complete
+Mon Feb  2 03:48:13 CET 2026: Changes detected, syncing to GitHub...
