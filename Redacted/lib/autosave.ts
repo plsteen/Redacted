@@ -10,6 +10,8 @@ export interface GameState {
   currentIdx: number;
   completedTaskIds: string[];
   hintUsed: boolean;
+  hintsUsedCount?: number;
+  timeElapsedSeconds?: number;
   timestamp: number;
 }
 

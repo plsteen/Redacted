@@ -21,7 +21,7 @@ import { HostControls } from "@/components/Shared/HostControls";
 import { ToastContainer, type Toast } from "@/components/Shared/TaskAnsweredToast";
 import { getSupabaseBrowserClient } from "@/lib/supabaseClient";
 import { emitSessionEvent, subscribeToSession, updatePresence, type PresenceState } from "@/lib/realtime";
-import { saveGameState, getAutosaveInterval } from "@/lib/autosave";
+import { saveGameState, getAutosaveInterval, loadGameState, clearGameState } from "@/lib/autosave";
 import type { Evidence, Task } from "@/types/mystery";
 import { useLocale } from "@/lib/hooks/useLocale";
 
@@ -114,6 +114,9 @@ function PlayPageContent() {
   const lastLoggedTaskIdxRef = useRef<number | null>(null);
 
   const [userId, setUserId] = useState<string | null>(null);
+  const hasLoadedAutosaveRef = useRef(false);
+  const resumeBroadcastedRef = useRef(false);
+  const progressRequestedRef = useRef(false);
 
   const sessionCode = searchParams?.get("session") ?? searchParams?.get("code") ?? "DEMO";
   const isHost = (searchParams?.get("mode") ?? "host") === "host";
@@ -131,6 +134,64 @@ function PlayPageContent() {
 
     fetchUserId();
   }, []);
+
+  // Load autosaved progress for host
+  useEffect(() => {
+    if (!playerId || hasLoadedAutosaveRef.current) return;
+    const saved = loadGameState();
+    if (!saved) return;
+    if (saved.sessionCode !== sessionCode || saved.caseId !== "silent-harbour") return;
+
+    hasLoadedAutosaveRef.current = true;
+
+    if (!isHost) return;
+
+    const resumeText = locale === "no"
+      ? "Fant lagret spill. Vil du fortsette der dere var?"
+      : "Found a saved game. Do you want to resume where you left off?";
+    const shouldResume = window.confirm(resumeText);
+
+    if (!shouldResume) {
+      clearGameState();
+      setCurrentIdx(0);
+      setCompletedRevelations([]);
+      setHintUsed(false);
+      setHintsUsed(0);
+      setShowCompletion(false);
+      setShowIntro(true);
+      setShowNameInput(false);
+      setStartTime(null);
+      setTimeElapsed(0);
+      setFinalTimeElapsed(null);
+      setTaskCompletionTimes([]);
+      if (channelRef.current) {
+        emitSessionEvent(channelRef.current, "game.reset", {});
+      }
+      return;
+    }
+
+    const resolved = tasks.filter((task) => saved.completedTaskIds.includes(task.id));
+    setCompletedRevelations(resolved);
+    setCurrentIdx(typeof saved.currentIdx === "number" ? saved.currentIdx : resolved.length);
+    setHintUsed(Boolean(saved.hintUsed));
+    if (typeof saved.hintsUsedCount === "number") {
+      setHintsUsed(saved.hintsUsedCount);
+    }
+    if (typeof saved.timeElapsedSeconds === "number") {
+      setStartTime(Date.now() - saved.timeElapsedSeconds * 1000);
+      setTimeElapsed(saved.timeElapsedSeconds);
+    }
+    if (saved.playerName) {
+      setPlayerName(saved.playerName);
+      setDetectives([{ id: "player1", name: saved.playerName, color: "#e8b84d" }]);
+    }
+    setShowIntro(false);
+    setShowNameInput(false);
+    if (resolved.length >= tasks.length) {
+      setShowCompletion(true);
+      setFinalTimeElapsed(saved.timeElapsedSeconds ?? null);
+    }
+  }, [playerId, sessionCode, isHost, tasks, locale]);
 
   const logActivity = useCallback(
     async (action: string, metadata: Record<string, unknown> = {}) => {
@@ -278,6 +339,14 @@ function PlayPageContent() {
               : `Allow ${data.playerName ?? "(unknown)"} to join?`;
             const ok = window.confirm(confirmMessage);
             emitSessionEvent(channelRef.current, ok ? "join.approved" : "join.denied", { playerId: data.playerId });
+            if (ok) {
+              const completedIds = completedRevelationsRef.current.map((t) => t.id);
+              emitSessionEvent(channelRef.current, "progress.updated", {
+                currentIdx,
+                completedTaskIds: completedIds,
+                hintUsed,
+              });
+            }
             return;
           }
           if (event.type === "join.approved") {
@@ -315,13 +384,32 @@ function PlayPageContent() {
             }
             return;
           }
+          if (event.type === "progress.request") {
+            if (!isHost || !channelRef.current) return;
+            const completedIds = completedRevelationsRef.current.map((t) => t.id);
+            emitSessionEvent(channelRef.current, "progress.updated", {
+              currentIdx,
+              completedTaskIds: completedIds,
+              hintUsed,
+            });
+            return;
+          }
           if (event.type === "game.reset") {
             setCurrentIdx(0);
             setCompletedRevelations([]);
             setHintUsed(false);
+            setHintsUsed(0);
             setPendingCompletion(false);
             setShowRevelation(false);
             setShowCompletion(false);
+            setStartTime(null);
+            setTimeElapsed(0);
+            setFinalTimeElapsed(null);
+            setTaskCompletionTimes([]);
+            setShowIntro(true);
+            setShowNameInput(false);
+            clearGameState();
+            resumeBroadcastedRef.current = false;
             return;
           }
           if (event.type === "progress.updated") {
@@ -492,6 +580,16 @@ function PlayPageContent() {
     emitSessionEvent(channelRef.current, "join.request", presenceData);
   }, [isHost, joinStatus, playerId, playerName]);
 
+  // Ask host for current progress after approval
+  useEffect(() => {
+    if (isHost) return;
+    if (joinStatus !== "approved") return;
+    if (!channelRef.current) return;
+    if (progressRequestedRef.current) return;
+    progressRequestedRef.current = true;
+    emitSessionEvent(channelRef.current, "progress.request", {});
+  }, [isHost, joinStatus]);
+
   // Presence heartbeat to keep player list in sync
   useEffect(() => {
     if (!playerId || !channelRef.current) return;
@@ -521,12 +619,35 @@ function PlayPageContent() {
         currentIdx,
         completedTaskIds: completedRevelations.map((t) => t.id),
         hintUsed,
+        hintsUsedCount: hintsUsed,
+        timeElapsedSeconds: timeElapsed,
         timestamp: Date.now(),
       });
     }, getAutosaveInterval());
     
     return () => clearInterval(interval);
-  }, [playerId, playerName, sessionCode, currentIdx, completedRevelations, hintUsed, showCompletion]);
+  }, [playerId, playerName, sessionCode, currentIdx, completedRevelations, hintUsed, hintsUsed, timeElapsed, showCompletion]);
+
+  // Broadcast current progress once for host after resume
+  useEffect(() => {
+    if (!isHost) return;
+    if (!channelRef.current) return;
+    if (resumeBroadcastedRef.current) return;
+    if (currentIdx === 0 && completedRevelations.length === 0) return;
+    const completedIds = completedRevelations.map((t) => t.id);
+    emitSessionEvent(channelRef.current, "progress.updated", {
+      currentIdx,
+      completedTaskIds: completedIds,
+      hintUsed,
+    });
+    resumeBroadcastedRef.current = true;
+  }, [isHost, currentIdx, completedRevelations, hintUsed]);
+
+  useEffect(() => {
+    if (showCompletion) {
+      clearGameState();
+    }
+  }, [showCompletion]);
 
   const currentTask = tasks[currentIdx];
   const isInteractionLocked = isLocked || isKicked || (!isHost && joinStatus !== "approved");
@@ -887,6 +1008,16 @@ function PlayPageContent() {
                   setCurrentIdx(0);
                   setCompletedRevelations([]);
                   setHintUsed(false);
+                  setHintsUsed(0);
+                  setStartTime(null);
+                  setTimeElapsed(0);
+                  setFinalTimeElapsed(null);
+                  setTaskCompletionTimes([]);
+                  setShowCompletion(false);
+                  setShowIntro(true);
+                  setShowNameInput(false);
+                  clearGameState();
+                  resumeBroadcastedRef.current = false;
                   // Broadcast reset event
                   if (channelRef.current) {
                     emitSessionEvent(channelRef.current, "game.reset", {});
