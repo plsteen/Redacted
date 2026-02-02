@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { LanguageSwitcher } from "@/components/Shared/LanguageSwitcher";
 import { Footer } from "@/components/Shared/Footer";
+import { loadGameState, clearGameState } from "@/lib/autosave";
 
 interface Mystery {
   id: string;
@@ -75,6 +76,7 @@ function HomePageContent() {
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authSent, setAuthSent] = useState(false);
+  const [savedProgress, setSavedProgress] = useState<ReturnType<typeof loadGameState> | null>(null);
   
   // Filter & Sort
   const [sortBy, setSortBy] = useState<SortOption>("newest");
@@ -98,6 +100,19 @@ function HomePageContent() {
     setIsHydrated(true);
     Promise.all([fetchUser(), fetchMysteries()]).finally(() => setLoading(false));
   }, [fetchMysteries]);
+
+  useEffect(() => {
+    const refreshSaved = () => {
+      setSavedProgress(loadGameState());
+    };
+    refreshSaved();
+    window.addEventListener("storage", refreshSaved);
+    window.addEventListener("focus", refreshSaved);
+    return () => {
+      window.removeEventListener("storage", refreshSaved);
+      window.removeEventListener("focus", refreshSaved);
+    };
+  }, []);
 
   // Escape key handler for modals
   useEffect(() => {
@@ -217,6 +232,21 @@ function HomePageContent() {
     }
   }
 
+  const hasProgressForCase = (mystery: Mystery) => {
+    if (!savedProgress) return false;
+    if (savedProgress.caseId !== mystery.slug) return false;
+    if (savedProgress.completedTaskIds?.length > 0) return true;
+    if (typeof savedProgress.currentIdx === "number" && savedProgress.currentIdx > 0) return true;
+    if (typeof savedProgress.timeElapsedSeconds === "number" && savedProgress.timeElapsedSeconds > 30) return true;
+    return false;
+  };
+
+  function handleStartOver(mystery: Mystery) {
+    clearGameState();
+    setSavedProgress(null);
+    router.push(`/play?case=${mystery.slug}&mode=host`);
+  }
+
   async function handleBuyCase(mystery: Mystery) {
     if (!user) {
       setShowAuthModal(true);
@@ -280,6 +310,8 @@ function HomePageContent() {
       hours: "h",
       minutes: "min",
       playNow: "Play now",
+      continue: "Continue",
+      startOver: "Start over",
       details: "Details",
       buy: "Buy",
       joinGame: "Join a game",
@@ -340,6 +372,8 @@ function HomePageContent() {
       hours: "t",
       minutes: "min",
       playNow: "Spill nå",
+      continue: "Fortsett",
+      startOver: "Start på nytt",
       details: "Detaljer",
       buy: "Kjøp",
       joinGame: "Bli med i et spill",
@@ -660,7 +694,7 @@ function HomePageContent() {
                         onClick={() => handlePlayCase(mystery)}
                         className="flex-1 py-2 bg-[var(--color-gold)] text-black rounded-lg font-semibold hover:bg-[var(--color-gold)]/90 transition cursor-pointer"
                       >
-                        {txt.playNow} →
+                        {hasProgressForCase(mystery) ? txt.continue : txt.playNow} →
                       </button>
                     ) : (
                       <button
@@ -677,6 +711,14 @@ function HomePageContent() {
                       {txt.details}
                     </button>
                   </div>
+                  {hasProgressForCase(mystery) && (mystery.isPurchased || mystery.priceNok === 0) && (
+                    <button
+                      onClick={() => handleStartOver(mystery)}
+                      className="mt-2 text-xs text-[var(--color-muted)] hover:text-white underline cursor-pointer"
+                    >
+                      {txt.startOver}
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
