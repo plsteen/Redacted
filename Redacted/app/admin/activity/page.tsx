@@ -193,65 +193,37 @@ function ActivityContent() {
             </div>
           </div>
 
-          {/* Two column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Where users are */}
-            <div className="bg-stone-800 rounded-lg p-6">
-              <h2 className="text-lg font-semibold mb-4">Where Users Are</h2>
-              {Object.keys(stats.pageDistribution).length === 0 ? (
-                <p className="text-stone-500 text-sm">No active users</p>
-              ) : (
-                <div className="space-y-3">
-                  {Object.entries(stats.pageDistribution)
+          {/* Device & Browser breakdown */}
+          <div className="bg-stone-800 rounded-lg p-6">
+            <h2 className="text-lg font-semibold mb-4">Devices & Browsers (24h)</h2>
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <p className="text-stone-400 text-xs uppercase tracking-wide mb-3">Devices</p>
+                <div className="space-y-2">
+                  {Object.entries(stats.deviceBreakdown)
                     .sort((a, b) => b[1] - a[1])
-                    .map(([page, count]) => (
-                      <div key={page} className="flex items-center justify-between">
-                        <span className="text-stone-300">{page}</span>
-                        <div className="flex items-center gap-2">
-                          <div 
-                            className="h-2 bg-amber-600 rounded-full" 
-                            style={{ width: `${Math.max(20, count * 30)}px` }}
-                          />
-                          <span className="text-stone-400 text-sm w-8 text-right">{count}</span>
-                        </div>
+                    .map(([device, count]) => (
+                      <div key={device} className="flex items-center justify-between">
+                        <span className="text-stone-300 capitalize">
+                          {device === "desktop" ? "💻" : device === "mobile" ? "📱" : "📱"} {device}
+                        </span>
+                        <span className="text-stone-400">{count}</span>
                       </div>
                     ))}
                 </div>
-              )}
-            </div>
-
-            {/* Device & Browser breakdown */}
-            <div className="bg-stone-800 rounded-lg p-6">
-              <h2 className="text-lg font-semibold mb-4">Devices & Browsers (24h)</h2>
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <p className="text-stone-400 text-xs uppercase tracking-wide mb-3">Devices</p>
-                  <div className="space-y-2">
-                    {Object.entries(stats.deviceBreakdown)
-                      .sort((a, b) => b[1] - a[1])
-                      .map(([device, count]) => (
-                        <div key={device} className="flex items-center justify-between">
-                          <span className="text-stone-300 capitalize">
-                            {device === "desktop" ? "💻" : device === "mobile" ? "📱" : "📱"} {device}
-                          </span>
-                          <span className="text-stone-400">{count}</span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-stone-400 text-xs uppercase tracking-wide mb-3">Browsers</p>
-                  <div className="space-y-2">
-                    {Object.entries(stats.browserBreakdown)
-                      .sort((a, b) => b[1] - a[1])
-                      .slice(0, 5)
-                      .map(([browser, count]) => (
-                        <div key={browser} className="flex items-center justify-between">
-                          <span className="text-stone-300">{browser}</span>
-                          <span className="text-stone-400">{count}</span>
-                        </div>
-                      ))}
-                  </div>
+              </div>
+              <div>
+                <p className="text-stone-400 text-xs uppercase tracking-wide mb-3">Browsers</p>
+                <div className="space-y-2">
+                  {Object.entries(stats.browserBreakdown)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([browser, count]) => (
+                      <div key={browser} className="flex items-center justify-between">
+                        <span className="text-stone-300">{browser}</span>
+                        <span className="text-stone-400">{count}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

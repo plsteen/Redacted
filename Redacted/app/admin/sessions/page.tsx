@@ -38,12 +38,17 @@ function SessionsContent() {
   const [autoRefresh, setAutoRefresh] = useState(true);
 
   const fetchSessions = useCallback(async () => {
+    if (!authParam || authParam !== "redacted2026") return;
+    
     try {
+      setLoading(true);
       const res = await fetch(`/api/admin/sessions?auth=${authParam}&filter=${filter}`);
+      if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
       setSessions(data.sessions || []);
     } catch (error) {
       console.error("Failed to fetch sessions:", error);
+      setSessions([]);
     } finally {
       setLoading(false);
     }
@@ -67,12 +72,12 @@ function SessionsContent() {
     fetchSessions();
   }, [authParam, router, fetchSessions]);
 
-  // Auto-refresh every 10 seconds
+  // Auto-refresh every 15 seconds
   useEffect(() => {
-    if (!autoRefresh) return;
-    const interval = setInterval(fetchSessions, 10000);
+    if (!autoRefresh || authParam !== "redacted2026") return;
+    const interval = setInterval(() => fetchSessions(), 15000);
     return () => clearInterval(interval);
-  }, [autoRefresh, fetchSessions]);
+  }, [autoRefresh, authParam, fetchSessions]);
 
   // Fetch events when session is selected
   useEffect(() => {
@@ -125,13 +130,16 @@ function SessionsContent() {
       const res = await fetch(`/api/admin/sessions/${sessionId}/stop?auth=${authParam}`, {
         method: "POST",
       });
-      if (res.ok) {
-        fetchSessions();
-        if (selectedSession?.id === sessionId) {
-          setSelectedSession(null);
-        }
+      if (!res.ok) throw new Error("Failed to stop session");
+      
+      // Refresh list
+      await fetchSessions();
+      if (selectedSession?.id === sessionId) {
+        setSelectedSession(null);
       }
+      alert("Session stopped");
     } catch (error) {
+      console.error("Failed to stop session:", error);
       alert("Failed to stop session");
     }
   };
@@ -150,6 +158,13 @@ function SessionsContent() {
         return "bg-stone-500/20 text-stone-400 border-stone-500/30";
     }
   };
+
+  // Calculate case distribution
+  const caseDistribution = sessions.reduce((acc, session) => {
+    const caseKey = session.mystery_title || session.code;
+    acc[caseKey] = (acc[caseKey] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
 
   const formatTime = (date: string) => {
     const d = new Date(date);
@@ -207,7 +222,7 @@ function SessionsContent() {
         </div>
 
         {/* Stats Summary */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-4 mb-6">
           <div className="bg-stone-800 border border-stone-700 rounded-lg p-4">
             <p className="text-2xl font-bold text-green-400">
               {sessions.filter((s) => s.status === "active").length}
@@ -231,6 +246,29 @@ function SessionsContent() {
             <p className="text-sm text-stone-400">Sessions (24h)</p>
           </div>
         </div>
+
+        {/* Cases Distribution */}
+        {Object.keys(caseDistribution).length > 0 && (
+          <div className="bg-stone-800 border border-stone-700 rounded-lg p-6 mb-6">
+            <h3 className="font-semibold text-white mb-4">📊 Where Players Are</h3>
+            <div className="space-y-3">
+              {Object.entries(caseDistribution)
+                .sort((a, b) => b[1] - a[1])
+                .map(([caseName, count]) => (
+                  <div key={caseName} className="flex items-center justify-between">
+                    <span className="text-stone-300 font-medium">{caseName}</span>
+                    <div className="flex items-center gap-2">
+                      <div 
+                        className="h-2 bg-amber-600 rounded-full" 
+                        style={{ width: `${Math.max(20, count * 30)}px` }}
+                      />
+                      <span className="text-stone-400 text-sm w-8 text-right">{count}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Sessions List */}
