@@ -194,6 +194,22 @@ function PlayPageContent() {
     [caseData, sessionCode, userId],
   );
 
+  const persistGameState = useCallback(() => {
+    if (!playerName || showCompletion) return;
+    saveGameState({
+      sessionCode,
+      caseId: "silent-harbour",
+      playerId: playerId || "local",
+      playerName,
+      currentIdx,
+      completedTaskIds: completedRevelations.map((t) => t.id),
+      hintUsed,
+      hintsUsedCount: hintsUsed,
+      timeElapsedSeconds: timeElapsed,
+      timestamp: Date.now(),
+    });
+  }, [playerName, showCompletion, sessionCode, playerId, currentIdx, completedRevelations, hintUsed, hintsUsed, timeElapsed]);
+
   useEffect(() => {
     logActivity("page_view", { step: "play" });
   }, [logActivity]);
@@ -582,25 +598,27 @@ function PlayPageContent() {
 
   // Autosave game state periodically
   useEffect(() => {
-    if (!playerId || !playerName || showCompletion) return;
-    
+    if (!playerName || showCompletion) return;
+
     const interval = setInterval(() => {
-      saveGameState({
-        sessionCode,
-        caseId: "silent-harbour",
-        playerId,
-        playerName,
-        currentIdx,
-        completedTaskIds: completedRevelations.map((t) => t.id),
-        hintUsed,
-        hintsUsedCount: hintsUsed,
-        timeElapsedSeconds: timeElapsed,
-        timestamp: Date.now(),
-      });
+      persistGameState();
     }, getAutosaveInterval());
-    
+
     return () => clearInterval(interval);
-  }, [playerId, playerName, sessionCode, currentIdx, completedRevelations, hintUsed, hintsUsed, timeElapsed, showCompletion]);
+  }, [playerName, showCompletion, persistGameState]);
+
+  // Save on important state changes (covers language change and refresh)
+  useEffect(() => {
+    persistGameState();
+  }, [persistGameState]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      persistGameState();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [persistGameState]);
 
   // Broadcast current progress once for host after resume
   useEffect(() => {
