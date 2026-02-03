@@ -21,9 +21,10 @@ export function LanguageSwitcher() {
       setIsChanging(true);
       // Set cookie
       document.cookie = `locale=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=strict`;
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+      // Instead of reload, navigate to same URL to preserve state
+      const url = new URL(window.location.href);
+      url.searchParams.set('_lang', nextLocale);
+      window.location.href = url.toString();
     },
     [currentLocale],
   );

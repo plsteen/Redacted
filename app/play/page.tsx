@@ -118,8 +118,36 @@ function PlayPageContent() {
   const resumeBroadcastedRef = useRef(false);
   const progressRequestedRef = useRef(false);
 
-  const sessionCode = searchParams?.get("session") ?? searchParams?.get("code") ?? "DEMO";
+  const sessionCodeRef = useRef<string | null>(null);
+
+  const [sessionCode, setSessionCode] = useState<string>("DEMO");
   const isHost = (searchParams?.get("mode") ?? "host") === "host";
+
+  // Initialize session code - load from URL or generate once and store in sessionStorage
+  useEffect(() => {
+    const urlSession = searchParams?.get("session") ?? searchParams?.get("code");
+    if (urlSession) {
+      setSessionCode(urlSession);
+      sessionCodeRef.current = urlSession;
+      return;
+    }
+
+    // Check if we already generated a code in sessionStorage
+    const stored = sessionStorage.getItem("sessionCode");
+    if (stored) {
+      setSessionCode(stored);
+      sessionCodeRef.current = stored;
+      return;
+    }
+
+    // Generate new code for host
+    if (isHost) {
+      const newCode = Math.random().toString(36).substring(2, 6).toUpperCase();
+      sessionStorage.setItem("sessionCode", newCode);
+      setSessionCode(newCode);
+      sessionCodeRef.current = newCode;
+    }
+  }, [isHost, searchParams]);
 
   useEffect(() => {
     const fetchUserId = async () => {

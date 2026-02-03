@@ -24,7 +24,14 @@ function BoardPageContent() {
 
   const t = getMessagesForLocale(locale);
   const evidence: Evidence[] = (locale === "no" ? evidenceNo : evidenceEn) as Evidence[];
-  const sessionCode = searchParams?.get("session") ?? "DEMO";
+  const sessionCode = useMemo(() => {
+    const urlSession = searchParams?.get("session");
+    if (urlSession) return urlSession;
+    
+    // Use same code from host if available in sessionStorage
+    const stored = sessionStorage.getItem("sessionCode");
+    return stored ?? "DEMO";
+  }, [searchParams]);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
