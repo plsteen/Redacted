@@ -1,6 +1,3 @@
 {
-  "buildCommand": "cd Redacted && npm run build",
-  "outputDirectory": "Redacted/.next",
-  "installCommand": "cd Redacted && npm install",
-  "framework": "nextjs"
+  "rootDirectory": "Redacted"
 }
