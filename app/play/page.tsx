@@ -118,36 +118,8 @@ function PlayPageContent() {
   const resumeBroadcastedRef = useRef(false);
   const progressRequestedRef = useRef(false);
 
-  const sessionCodeRef = useRef<string | null>(null);
-
-  const [sessionCode, setSessionCode] = useState<string>("DEMO");
+  const sessionCode = searchParams?.get("session") ?? searchParams?.get("code") ?? "DEMO";
   const isHost = (searchParams?.get("mode") ?? "host") === "host";
-
-  // Initialize session code - load from URL or generate once and store in sessionStorage
-  useEffect(() => {
-    const urlSession = searchParams?.get("session") ?? searchParams?.get("code");
-    if (urlSession) {
-      setSessionCode(urlSession);
-      sessionCodeRef.current = urlSession;
-      return;
-    }
-
-    // Check if we already generated a code in sessionStorage
-    const stored = sessionStorage.getItem("sessionCode");
-    if (stored) {
-      setSessionCode(stored);
-      sessionCodeRef.current = stored;
-      return;
-    }
-
-    // Generate new code for host
-    if (isHost) {
-      const newCode = Math.random().toString(36).substring(2, 6).toUpperCase();
-      sessionStorage.setItem("sessionCode", newCode);
-      setSessionCode(newCode);
-      sessionCodeRef.current = newCode;
-    }
-  }, [isHost, searchParams]);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -524,6 +496,29 @@ function PlayPageContent() {
             }
             if (typeof data.hintUsed === "boolean") setHintUsed(data.hintUsed);
           }
+          if (event.type === "task.answered") {
+            // Only host processes task.answered events and broadcasts updated progress
+            if (!isHost || !channelRef.current) return;
+            
+            const raw = event.payload as { playerId?: string; taskId?: string; playerName?: string } & Record<string, any>;
+            const data = raw.payload ?? raw;
+            
+            console.log("[Task] Received task.answered from player:", data?.playerId, "task:", data?.taskId);
+            
+            // Host adds the completed task to its list if not already there
+            const completedIds = completedRevelationsRef.current.map((t) => t.id);
+            if (data?.taskId && !completedIds.includes(data.taskId)) {
+              const newTask = tasks.find((t) => t.id === data.taskId);
+              if (newTask) {
+                console.log("[Task] Host broadcasting new completed task:", newTask.id);
+                const updated = [...completedRevelationsRef.current, newTask];
+                completedRevelationsRef.current = updated;
+                const nextIdx = updated.length - 1;
+                broadcastProgress(nextIdx, updated, hintUsed);
+              }
+            }
+            return;
+          }
         },
         (presence) => {
           console.log("[Realtime] Presence update received:", presence, "count:", presence.length);
@@ -767,8 +762,17 @@ function PlayPageContent() {
       if (nextRevelations.length === tasks.length) {
         setPendingCompletion(true);
       }
-      // Broadcast with the count of completed tasks as currentIdx
-      broadcastProgress(nextRevelations.length - 1, nextRevelations, hintUsed);
+      // Only host broadcasts progress. Non-host sends task.answered event.
+      if (isHost) {
+        broadcastProgress(nextRevelations.length - 1, nextRevelations, hintUsed);
+      } else if (channelRef.current) {
+        emitSessionEvent(channelRef.current, "task.answered", {
+          playerId,
+          playerName,
+          taskId: currentTask.id,
+          timestamp: Date.now(),
+        });
+      }
     }
     return correct;
   };
@@ -789,7 +793,9 @@ function PlayPageContent() {
     if (nextIdx < tasks.length) {
       setCurrentIdx(nextIdx);
       setHintUsed(false);
-      broadcastProgress(nextIdx, completedRevelations, false);
+      if (isHost && channelRef.current) {
+        broadcastProgress(nextIdx, completedRevelations, false);
+      }
     } else {
       // Game is complete
       setShowCompletion(true);
