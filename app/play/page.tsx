@@ -422,6 +422,18 @@ function PlayPageContent() {
             setShowNameInput(false);
             clearGameState();
             resumeBroadcastedRef.current = false;
+                  // Generate new session code to disconnect old players
+                  if (userId) {
+                    const userPart = (userId.substring(0, 2) + userId.substring(userId.length - 2)).toUpperCase();
+                    const randomPart = Math.random().toString(36).substring(2, 4).toUpperCase();
+                    const newCode = userPart + randomPart;
+                    sessionStorage.setItem("sessionCode", newCode);
+                    setSessionCode(newCode);
+                    // Clear announced players and online players
+                    setAnnouncedPlayers([]);
+                    setOnlinePlayers([]);
+                    joinRequestSentRef.current = false;
+                  }
             return;
           }
           if (event.type === "progress.updated") {
@@ -1070,6 +1082,18 @@ function PlayPageContent() {
                   setShowNameInput(false);
                   clearGameState();
                   resumeBroadcastedRef.current = false;
+                  // Generate new session code to disconnect old players
+                  if (userId) {
+                    const userPart = (userId.substring(0, 2) + userId.substring(userId.length - 2)).toUpperCase();
+                    const randomPart = Math.random().toString(36).substring(2, 4).toUpperCase();
+                    const newCode = userPart + randomPart;
+                    sessionStorage.setItem("sessionCode", newCode);
+                    setSessionCode(newCode);
+                    // Clear announced players and online players
+                    setAnnouncedPlayers([]);
+                    setOnlinePlayers([]);
+                    joinRequestSentRef.current = false;
+                  }
                   // Broadcast reset event
                   if (channelRef.current) {
                     emitSessionEvent(channelRef.current, "game.reset", {});
