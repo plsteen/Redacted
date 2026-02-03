@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/lib/hooks/useLocale';
+import packageJson from '@/package.json';
 
 export function Footer() {
   const locale = useLocale();
 
   const year = new Date().getFullYear();
+  const version = packageJson.version;
   
   const links = {
     en: {
@@ -61,6 +63,7 @@ export function Footer() {
             {t.creatorLabel} <span className="font-semibold text-white">Pål Steen</span> • {t.location}
           </p>
           <p className="mt-2">© {year} Redacted. {t.rights}</p>
+          <p className="mt-2 text-[0.7rem] opacity-50">v{version}</p>
         </div>
       </div>
     </footer>
