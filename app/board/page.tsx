@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import evidenceEn from "@/content/cases/silent-harbour/en/evidence.json";
 import evidenceNo from "@/content/cases/silent-harbour/no/evidence.json";
