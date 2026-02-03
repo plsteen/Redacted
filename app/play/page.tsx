@@ -536,7 +536,10 @@ function PlayPageContent() {
                 const updated = [...completedRevelationsRef.current, newTask];
                 completedRevelationsRef.current = updated;
                 setCompletedRevelations(updated);
-                const nextIdx = updated.length - 1;
+                const nextIdx = updated.length;
+                setRevelationTask(newTask);
+                setShowRevelation(true);
+                if (updated.length === tasks.length) { setPendingCompletion(true); }
                 broadcastProgress(nextIdx, updated, hintUsed);
               }
             }
@@ -787,7 +790,7 @@ function PlayPageContent() {
       }
       // Only host broadcasts progress. Non-host sends task.answered event.
       if (isHost) {
-        broadcastProgress(nextRevelations.length - 1, nextRevelations, hintUsed);
+        broadcastProgress(nextRevelations.length, nextRevelations, hintUsed);
       } else if (channelRef.current) {
         emitSessionEvent(channelRef.current, "task.answered", {
           playerId,
