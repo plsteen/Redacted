@@ -1,6 +1,0 @@
-{
-  "framework": "nextjs",
-  "rootDirectory": "Redacted",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next"
-}
