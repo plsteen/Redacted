@@ -584,6 +584,10 @@ function PlayPageContent() {
     }
 
     return () => {
+      // If host is leaving the page, notify joiners so they get kicked
+      if (isHost && channelRef.current) {
+        emitSessionEvent(channelRef.current, "game.reset", {});
+      }
       channelRef.current?.unsubscribe();
       channelRef.current = null;
     };
