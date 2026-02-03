@@ -11,6 +11,7 @@ export type PresenceState = {
 
 export type SessionEvent =
   | { type: "progress.updated"; payload: unknown }
+  | { type: "progress.request"; payload: unknown }
   | { type: "evidence.unlocked"; payload: unknown }
   | { type: "hint.used"; payload: unknown }
   | { type: "tv.pin.updated"; payload: unknown }
@@ -40,6 +41,10 @@ export function subscribeToSession(
   });
   channel.on("broadcast", { event: "progress.updated" }, (payload) => {
     onEvent({ type: "progress.updated", payload });
+  });
+
+  channel.on("broadcast", { event: "progress.request" }, (payload) => {
+    onEvent({ type: "progress.request", payload });
   });
 
   channel.on("broadcast", { event: "evidence.unlocked" }, (payload) => {

@@ -17,18 +17,14 @@ export async function GET(
     const { sessionId } = await params;
     const supabase = getSupabaseAdminClient();
 
-    // Get session progress as events - try both UUID and text formats
-    let progress = null;
-    let error = null;
-    
-    // First try treating it as UUID
-    ({ data: progress, error } = await supabase
+    // Get session progress as events
+    const { data: progress } = await supabase
       .from("session_progress")
       .select("*")
       .eq("session_id", sessionId)
-      .order("created_at", { ascending: false }));
+      .order("created_at", { ascending: false });
 
-    // Get activity log for this session (works with any format)
+    // Get activity log for this session
     const { data: activityLog } = await supabase
       .from("user_activity_log")
       .select("*")
@@ -37,27 +33,29 @@ export async function GET(
       .limit(50);
 
     // Combine and format as events
-    const events = [
-      ...(progress || []).map(p => ({
-        id: p.id,
-        session_id: sessionId,
-        event_type: "task_progress",
-        data: {
-          task_idx: p.task_idx,
-          is_correct: p.is_correct,
-          hint_used: p.hint_used,
-          time_spent_seconds: p.time_spent_seconds
-        },
-        timestamp: p.created_at
-      })),
-      ...(activityLog || []).map(a => ({
-        id: a.id,
-        session_id: sessionId,
-        event_type: a.action,
-        data: a.metadata || {},
-        timestamp: a.created_at
-      }))
-    ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    const progressEvents = (progress || []).map((p: any) => ({
+      id: p.id,
+      session_id: sessionId,
+      event_type: "task_progress",
+      data: {
+        task_idx: p.task_idx,
+        is_correct: p.is_correct,
+        hint_used: p.hint_used,
+        time_spent_seconds: p.time_spent_seconds
+      },
+      timestamp: p.created_at
+    }));
+
+    const activityEvents = (activityLog || []).map((a: any) => ({
+      id: a.id,
+      session_id: sessionId,
+      event_type: a.action,
+      data: a.metadata || {},
+      timestamp: a.created_at
+    }));
+
+    const events = [...progressEvents, ...activityEvents]
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     return NextResponse.json({ events });
   } catch (error) {

@@ -77,8 +77,8 @@ export default function CompletionScreen({
           .eq('case_id', 'silent-harbour');
         
         if (data && data.length > 0) {
-          const avgTime = Math.floor(data.reduce((sum, s) => sum + s.total_time_seconds, 0) / data.length);
-          const avgHints = Math.floor(data.reduce((sum, s) => sum + s.hints_used, 0) / data.length);
+          const avgTime = Math.floor(data.reduce((sum: number, s: any) => sum + (s.total_time_seconds || 0), 0) / data.length);
+          const avgHints = Math.floor(data.reduce((sum: number, s: any) => sum + (s.hints_used || 0), 0) / data.length);
           setAvgStats({ avgTime, avgHints });
         }
       } catch (error) {
