@@ -407,6 +407,14 @@ function PlayPageContent() {
             return;
           }
           if (event.type === "game.reset") {
+            // Non-host players get kicked out when host resets
+            if (!isHost) {
+              clearGameState();
+              alert(locale === "no" ? "Verten har startet spillet på nytt." : "The host has reset the game.");
+              router.push("/");
+              return;
+            }
+            // Host just resets state (host triggers reset via onResetGame button)
             setCurrentIdx(0);
             setCompletedRevelations([]);
             setHintUsed(false);
@@ -422,18 +430,6 @@ function PlayPageContent() {
             setShowNameInput(false);
             clearGameState();
             resumeBroadcastedRef.current = false;
-                  // Generate new session code to disconnect old players
-                  if (userId) {
-                    const userPart = (userId.substring(0, 2) + userId.substring(userId.length - 2)).toUpperCase();
-                    const randomPart = Math.random().toString(36).substring(2, 4).toUpperCase();
-                    const newCode = userPart + randomPart;
-                    sessionStorage.setItem("sessionCode", newCode);
-                    setSessionCode(newCode);
-                    // Clear announced players and online players
-                    setAnnouncedPlayers([]);
-                    setOnlinePlayers([]);
-                    joinRequestSentRef.current = false;
-                  }
             return;
           }
           if (event.type === "progress.updated") {

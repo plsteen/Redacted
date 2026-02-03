@@ -60,6 +60,7 @@ export function loadGameState(): GameState | null {
 export function clearGameState() {
   try {
     localStorage.removeItem(AUTOSAVE_KEY);
+    sessionStorage.removeItem("sessionCode");
     console.log("[Autosave] Game state cleared");
   } catch (e) {
     console.error("[Autosave] Failed to clear:", e);
