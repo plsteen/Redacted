@@ -513,6 +513,8 @@ function PlayPageContent() {
                 console.log("[Task] Host broadcasting new completed task:", newTask.id);
                 const updated = [...completedRevelationsRef.current, newTask];
                 completedRevelationsRef.current = updated;
+                // Update host's state so it reflects the new completion
+                setCompletedRevelations(updated);
                 const nextIdx = updated.length - 1;
                 broadcastProgress(nextIdx, updated, hintUsed);
               }
