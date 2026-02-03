@@ -104,7 +104,13 @@ function PlayPageContent() {
   ]);
   const channelRef = useRef<ReturnType<typeof subscribeToSession> | null>(null);
 
-  const [playerId, setPlayerId] = useState<string>("");
+  const [playerId, setPlayerId] = useState<string>(() => {
+    // Generate playerId immediately on client-side, not in useEffect
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return Math.random().toString(36).substring(2, 11);
+  });
   const [onlinePlayers, setOnlinePlayers] = useState<PresenceState[]>([]);
   const [announcedPlayers, setAnnouncedPlayers] = useState<PresenceState[]>([]);
   const [joinStatus, setJoinStatus] = useState<"pending" | "approved" | "denied">("pending");
@@ -288,17 +294,6 @@ function PlayPageContent() {
     const totalSeconds = Math.floor((Date.now() - startTime) / 1000);
     setFinalTimeElapsed(totalSeconds);
   }, [showCompletion, startTime, finalTimeElapsed]);
-
-    // Initialize playerId on client side
-    useEffect(() => {
-      const generateId = () => {
-        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-          return crypto.randomUUID();
-        }
-        return Math.random().toString(36).substring(2, 11);
-      };
-      setPlayerId(generateId());
-    }, []);
 
   const getPlayerColor = (id: string) => {
     const colors = [
