@@ -117,8 +117,8 @@ function PlayPageContent() {
   const hasLoadedAutosaveRef = useRef(false);
   const resumeBroadcastedRef = useRef(false);
   const progressRequestedRef = useRef(false);
-
-  const sessionCode = searchParams?.get("session") ?? searchParams?.get("code") ?? "DEMO";
+  
+  const [sessionCode, setSessionCode] = useState<string>("DEMO");
   const isHost = (searchParams?.get("mode") ?? "host") === "host";
 
   useEffect(() => {
@@ -134,6 +134,33 @@ function PlayPageContent() {
 
     fetchUserId();
   }, []);
+
+  // Initialize or load session code - must be unique per host
+  useEffect(() => {
+    // Check if code provided in URL
+    const urlSession = searchParams?.get("session") ?? searchParams?.get("code");
+    if (urlSession) {
+      setSessionCode(urlSession);
+      return;
+    }
+
+    // Check if we have a stored code in sessionStorage
+    const stored = sessionStorage.getItem("sessionCode");
+    if (stored) {
+      setSessionCode(stored);
+      return;
+    }
+
+    // Generate new code for host using userId + random
+    if (isHost && userId) {
+      // Use userId first 4 chars + last 4 chars + random 2 chars
+      const userPart = (userId.substring(0, 2) + userId.substring(userId.length - 2)).toUpperCase();
+      const randomPart = Math.random().toString(36).substring(2, 4).toUpperCase();
+      const code = userPart + randomPart;
+      sessionStorage.setItem("sessionCode", code);
+      setSessionCode(code);
+    }
+  }, [isHost, userId, searchParams]);
 
   // Load autosaved progress to avoid restarting on refresh/language change
   useEffect(() => {
